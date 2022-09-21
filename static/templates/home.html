@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'frontend/reddit-app/ang/styles.css' %}">
+{% endblock stylesheets %}
+
+{% block javascripts %}
+  <script type="text/javascript" src="{% static 'frontend/reddit-app/ang/runtime.js' %}"></script>
+  <script type="text/javascript" src="{% static 'frontend/reddit-app/ang/polyfills.js' %}"></script>
+  <script type="text/javascript" src="{% static 'frontend/reddit-app/ang/main.js' %}"></script>
+{% endblock javascripts %}
