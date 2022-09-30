@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayoutAlign="left center" fxLayoutGap="8px">
+    <button mat-icon-button class="border" (click)="upvoteClicked()" [disabled]="!user">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+
+    <p class="comment-votes">{{ total }}</p>
+
+    <button mat-icon-button class="border" (click)="downvoteClicked()" [disabled]="!user">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+
+    <div class="">
+      <a *ngIf="nested && can_reply && user" (click)="mentionUser()" class="reply-btn">Reply</a>
+      <a *ngIf="!user" class="reply-btn">Reply</a>
+
+      <a *ngIf="nested" (click)="nestedReplyEvent()" class="reply-btn" [ngPlural]="comment.child_count">
+        <ng-template ngPluralCase="=0">Reply</ng-template>
+        <ng-template ngPluralCase="=1">Reply [1]</ng-template>
+        <ng-template ngPluralCase="other">Replies [{{comment.child_count}}]</ng-template>
+      </a>
+    </div>
+</div>

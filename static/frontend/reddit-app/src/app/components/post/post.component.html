@@ -1,0 +1,77 @@
+<mat-card class="post-card">
+  <div class="likes-section">
+    <button mat-icon-button (click)="upvote()">
+      <mat-icon class="large-icon">arrow_drop_up</mat-icon>
+    </button>
+    <span class="count-text">{{ post.votes }}</span>
+    <button mat-icon-button (click)="downvote()">
+      <mat-icon class="large-icon">arrow_drop_down</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-content">
+    <div class="card-meta">
+      <div style="display:flex; align-items:center;">
+        <img class="user-avatar" alt="" src="../../../assets/images/default_user.png">
+        <!-- <span class="font-bold">Tag .  &nbsp;</span> -->
+        <span>Posted by {{post.author.username}}</span>
+      </div>
+
+      <div style="display:flex; align-items:center;">
+        <span class="timestamp">{{ post.created_at | timeSince }} ago</span>
+        <button mat-icon-button style="float:right;" [matMenuTriggerFor]="headerMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #headerMenu="matMenu">
+          <button mat-menu-item disabled>
+            <mat-icon>outlined_flag</mat-icon>
+            <span>Report</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>visibility_off</mat-icon>
+            <span>Hide</span>
+          </button>
+        </mat-menu>
+      </div>
+
+    </div>
+    <mat-card-title>
+      <a class="" [routerLink]="['', post.uuid]">
+        {{ post.title | slice:0:100 }}
+      </a>
+    </mat-card-title>
+    <mat-card-content>
+      <ng-container *ngIf="post.content.length >= 300">
+        <span [innerHtml]="post.content | slice:0:300 | safeContent"></span>
+        <!-- <div class="overlay">Read more</div> -->
+      </ng-container>
+      <ng-container *ngIf="post.content.length < 300">
+        <span [innerHtml]="post.content | safeContent"></span>
+      </ng-container>
+
+    </mat-card-content>
+
+    <div class="card-actions">
+      <a [routerLink]="[ '', post.uuid ]">
+        <mat-icon class="card-actions-icon" style="vertical-align:middle">insert_comment</mat-icon>
+        <span class="sub-text">
+          <ng-container  *ngIf="post.comments > 0; else viewTemplate">
+            {{ post.comments }} comments
+          </ng-container>
+          <ng-template #viewTemplate>
+            Add comment
+          </ng-template>
+        </span>
+      </a>
+
+      <button mat-icon-button (click)="checkBookmark()">
+        <ng-container *ngIf="post.user_bookmark?.id; else bookmarkTemplate">
+          <mat-icon class="card-actions-icon">bookmark</mat-icon>
+        </ng-container>
+        <ng-template #bookmarkTemplate>
+          <mat-icon class="card-actions-icon">bookmark_border</mat-icon>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</mat-card>

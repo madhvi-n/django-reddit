@@ -1,0 +1,93 @@
+.post-card {
+  margin: 16px 0;
+  box-shadow: none;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  display: flex;
+  padding: 0;
+}
+
+.likes-section {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  // background-color: #dedede;
+  padding-left: 10px;
+  padding-top: 20px;
+  padding-right: 10px;
+
+  .count-text {
+    font-size: 0.8rem;
+    color: #707070;
+    text-align: center;
+  }
+}
+
+.card-content {
+  padding: 20px;
+  padding-left: 0;
+}
+
+.overlay {
+  box-shadow: 0px -18px 3px -3px rgba(214,214,214,1);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.65rem;
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px
+  }
+
+  span:first-child {
+    font-weight: 500;
+  }
+
+  span:last-child {
+    color: #707070;
+  }
+}
+
+.timestamp {
+  float: right;
+  color: #707070;
+  font-weight: 300;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .card-actions-icon {
+    color: #707070;
+  }
+}
+
+.sub-text {
+  font-size: 0.8rem;
+  color: #707070;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.large-icon {
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+  color: #707070;
+  // border: 1px solid grey;
+  // border-radius: 50%;
+  // line-height: 30px;
+}
+
+// a {
+//   color: #707070;
+// }

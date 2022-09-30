@@ -1,0 +1,7 @@
+<div class="width-100">
+  <ng-container *ngIf="posts">
+    <ng-container *ngFor="let post of posts">
+      <app-post [post]="post"></app-post>
+    </ng-container>
+  </ng-container>
+</div>

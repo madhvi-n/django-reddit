@@ -1,0 +1,53 @@
+<div class="">
+  <mat-toolbar color="secondary" class="header shadow-sm" *ngIf="!authRoute">
+    <div style="display:flex; gap:10px; align-items: center">
+      <img src="../assets/favicon/apple-touch-icon.png" alt="Icon" height="30" width="30">
+      <a [routerLink]="['']" class="font-bold color-primary navbar-brand" style="text-decoration:none">
+        Django Reddit
+      </a>
+      <div></div>
+      <div></div>
+      <button mat-icon-button>
+        <mat-icon>add</mat-icon>
+        <a [routerLink]="['create']" style="text-decoration:none">
+          Create post
+        </a>
+      </button>
+    </div>
+
+
+    <div class="search-bar">
+      <form class="navbar-item-search" [formGroup]="searchField" (ngSubmit)="search()">
+        <!-- <div class="search-bar"> -->
+          <button mat-icon-button class="search-icon-wrapper">
+            <mat-icon class="search-icon">search</mat-icon>
+          </button>
+          <input formControlName="search" placeholder="Search" name="search"
+            oninput="this.value = this.value.toLowerCase()" class="search-input">
+        <!-- </div> -->
+      </form>
+    </div>
+
+    <ng-container *ngIf="user; else elseTemplate">
+      <div class="buttons-section" *ngIf="user" style="display:flex; align-items:center; gap: 6px;">
+        <img src="../assets/images/default_user.png" alt="Icon" height="30" width="30">
+        <span style="vertical-align:middle; font-size:16px;">{{ user?.username }}</span>
+        <button mat-icon-button class="logout-icon" (click)="logout()" aria-label="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div class="buttons-section">
+        <a mat-button [routerLink]="[ 'sign-in']">Login</a>
+      </div>
+    </ng-template>
+
+  </mat-toolbar>
+
+  <main class="app" [ngClass]="{'bg-container': !authRoute, 'app-main': !authRoute}">
+    <div class="container" [ngClass]="{'unauth-container': authRoute}">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,24 @@
+.post-title {
+  font-weight: 500;
+  font-size: 20px;
+  width: 100%;
+
+  ::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+.blog-form {
+  margin-bottom: 32px;
+}
+
+.post-create {
+  margin: 16px 0;
+  box-shadow: none;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+}
