@@ -7,12 +7,9 @@
       </a>
       <div></div>
       <div></div>
-      <button mat-icon-button>
-        <mat-icon>add</mat-icon>
-        <a [routerLink]="['create']" style="text-decoration:none">
-          Create post
-        </a>
-      </button>
+      <a mat-flat-button [routerLink]="['create']" style="text-decoration:none">
+        Create post
+      </a>
     </div>
 
 
@@ -30,7 +27,10 @@
 
     <ng-container *ngIf="user; else elseTemplate">
       <div class="buttons-section" *ngIf="user" style="display:flex; align-items:center; gap: 6px;">
-        <img src="../assets/images/default_user.png" alt="Icon" height="30" width="30">
+
+        <a mat-icon-button [routerLink]="[ 'profile']">
+          <mat-icon>person</mat-icon>
+        </a>
         <span style="vertical-align:middle; font-size:16px;">{{ user?.username }}</span>
         <button mat-icon-button class="logout-icon" (click)="logout()" aria-label="Logout">
           <mat-icon>logout</mat-icon>

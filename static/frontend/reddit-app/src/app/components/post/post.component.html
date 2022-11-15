@@ -1,11 +1,11 @@
 <mat-card class="post-card">
   <div class="likes-section">
     <button mat-icon-button (click)="upvote()">
-      <mat-icon class="large-icon">arrow_drop_up</mat-icon>
+      <mat-icon class="large-icon" [ngClass]="{'active-icon': post?.user_vote?.vote == 1}">keyboard_arrow_up</mat-icon>
     </button>
     <span class="count-text">{{ post.votes }}</span>
     <button mat-icon-button (click)="downvote()">
-      <mat-icon class="large-icon">arrow_drop_down</mat-icon>
+      <mat-icon class="large-icon" [ngClass]="{'active-icon': post?.user_vote?.vote == -1}">keyboard_arrow_down</mat-icon>
     </button>
   </div>
 

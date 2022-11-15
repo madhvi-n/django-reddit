@@ -28,8 +28,8 @@ export class PostComponent implements OnInit {
         }
         this.postService.updateVote(this.post.uuid, this.post.user_vote.id, data).subscribe(
           (response:any) => {
-            this.post.user_vote = response.user_vote;
-            this.post.votes = response.total;
+            this.post.user_vote = response;
+            this.post.votes += response.vote;
           })
       }
     } else {
@@ -39,17 +39,16 @@ export class PostComponent implements OnInit {
       }
       this.postService.addVote(this.post.uuid, data).subscribe(
         (response: any) => {
-          this.post.user_vote = response.user_vote;
-          this.post.votes = response.total;
+          this.post.user_vote = response;
+          this.post.votes += response.vote;
         })
     }
   }
 
   downvote() {
-    if(!this.post.user_vote) return
     if(this.post.user_vote) {
       if(this.post.user_vote.vote == -1) {
-        return;
+        this.removeVote();
       }
       const current = this.post.user_vote.vote -= 1
       const data = {
@@ -58,9 +57,19 @@ export class PostComponent implements OnInit {
       }
       this.postService.updateVote(this.post.uuid, this.post.user_vote.id, data).subscribe(
         (response: any) => {
-          this.post.user_vote = response.user_vote;
-          this.post.votes = response.total;
+          this.post.user_vote = response;
+          this.post.votes += response.vote;
         });
+    } else {
+      const data = {
+        user: this.user_id,
+        vote: -1
+      }
+      this.postService.addVote(this.post.uuid, data).subscribe(
+        (response: any) => {
+          this.post.user_vote = response;
+          this.post.votes += response.vote;
+        })
     }
   }
 
@@ -72,7 +81,7 @@ export class PostComponent implements OnInit {
     this.postService.deleteVote(this.post.uuid, this.post.user_vote.id).subscribe(
       (response: any) => {
         this.post.user_vote = null;
-        this.post.votes = response.votes;
+        // real time changes
       })
   }
 

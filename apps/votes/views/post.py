@@ -72,16 +72,17 @@ class PostVoteViewSet(BaseViewSet):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def destroy(self, request, post_uuid=None, pk=None):
-        post = self.get_object()
+        vote = self.get_object()
         if not request.user.is_authenticated:
             return Response(
                 {'error': 'Unauthorized user'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        if post.user.pk != request.user.pk:
+        if vote.user.pk != request.user.pk:
             return Response(
                 {'error': 'Spoofing detected'},
                 status=status.HTTP_403_FORBIDDEN
             )
-        post.delete()
-        return Response({'success': True}, status=status.HTTP_200_OK)
+        votes = 0
+        vote.delete()
+        return Response({'success': True, 'votes': votes}, status=status.HTTP_200_OK)

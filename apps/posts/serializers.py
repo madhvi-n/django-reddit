@@ -7,7 +7,7 @@ from votes.serializers import PostVoteLightSerializer, PostCommentVoteLightSeria
 from votes.models import PostVote
 from bookmarks.models import PostBookmark
 from bookmarks.serializers import PostBookmarkLightSerializer
-
+from django.db.models import Sum
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer()
@@ -26,7 +26,10 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
     def get_votes(self, obj):
-        return PostVote.objects.filter(post=obj).count()
+        if obj.votes.exists():
+            post = obj.votes.aggregate(votes=Sum('vote'))
+            return post['votes']
+        return 0
 
     def get_comments(self, obj):
         return PostComment.objects.filter(post=obj, is_removed=False).count()

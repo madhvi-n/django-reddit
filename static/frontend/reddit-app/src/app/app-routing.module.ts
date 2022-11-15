@@ -8,6 +8,7 @@ import { AuthGuard } from './core/guards/auth/auth.guard';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProfileComponent } from './profiles/profiles.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'logout',
     component: SignOutComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
   },
   {
     path: ':uuid',

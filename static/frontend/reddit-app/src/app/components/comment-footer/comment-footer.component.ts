@@ -24,7 +24,7 @@ export class CommentFooterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.checkUserVote();
+    this.vote = this.comment?.user_vote?.vote;
     if (this.user.id == this.comment.user.id) {
       this.can_reply = false;
     }
@@ -51,7 +51,7 @@ export class CommentFooterComponent implements OnInit {
     if (this.vote == 1) {
       this.removeVote();
     } else {
-      this.upvoteComment();
+      this.updateComment();
     }
   }
 
@@ -62,39 +62,38 @@ export class CommentFooterComponent implements OnInit {
     if (this.vote == -1) {
       this.removeVote();
     } else {
-      this.downvoteComment();
+      this.updateComment();
     }
   }
 
-  upvoteComment() {
-    // this.commentService.upvoteComment(this.uuid, this.comment.id, this.user.id).subscribe(
-    //   (response: any) => {
-    //     // console.log(response);
-    //     this.setVoteData(response);
-    //   }, (err) => {
-    //     console.log(err);
-    //   }
-    // );
+  createComment() {
+    this.commentService.createComment(this.uuid, this.comment.id).subscribe(
+      (response: any) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
+      }
+    );
   }
 
   removeVote() {
-    // this.commentService.removeCommentVote(this.uuid, this.comment.id, this.comment.vote.id).subscribe(
-    //   (response) => {
-    //     this.setVoteData(response);
-    //   }, (err) => {
-    //     console.log(err);
-    //   }
-    // );
+    this.commentService.removeCommentVote(this.uuid, this.comment.id, this.comment.user_vote.id).subscribe(
+      (response) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
+      }
+    );
   }
 
-  downvoteComment() {
-    // this.commentService.downvoteComment(this.uuid, this.comment.id, this.user.id).subscribe(
-    //   (response) => {
-    //     this.setVoteData(response);
-    //   }, (err) => {
-    //     console.log(err);
-    //   }
-    // );
+  updateComment() {
+    this.commentService.updateComment(this.uuid, this.comment.id, this.comment.user_vote.id).subscribe(
+      (response) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
+      }
+    );
   }
 
   mentionUser() {

@@ -30,6 +30,7 @@ import { CommentListComponent } from './components/comment-list/comment-list.com
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SafeContentPipe } from '@reddit/core/pipes/safe-content/safe-content.pipe';
+import { ProfileComponent } from './profiles/profiles.component';
 
 @NgModule({
   declarations: [

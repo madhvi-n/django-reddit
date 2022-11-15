@@ -15,4 +15,9 @@ export class Comment {
   updated_at: string;
   parent: number;
   child_count: number;
+  user_vote: {
+    id: number;
+    user: number;
+    vote: number;
+  }
 }
