@@ -1,35 +1,37 @@
 from rest_framework import serializers
-from posts.models import Post
+from posts.models import Post, PostVote
 from profiles.serializers import UserSerializer
 from tags.serializers import TagSerializer
 from comments.models import PostComment
-from votes.serializers import PostVoteLightSerializer, PostCommentVoteLightSerializer
-from votes.models import PostVote
 from bookmarks.models import PostBookmark
 from bookmarks.serializers import PostBookmarkLightSerializer
 from django.db.models import Sum
+from core.serializers import ModelReadOnlySerializer
+from groups.serializers import GroupSerializer, GroupReadOnlyLightSerializer
+
+
+class PostVoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostVote
+        fields = ('id', 'vote')
+
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer()
-    votes = serializers.SerializerMethodField()
+    votes = serializers.ReadOnlyField(source='_get_score')
     user_vote = serializers.SerializerMethodField()
     user_bookmark = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     tags = TagSerializer(required=False, many=True)
+    group = GroupReadOnlyLightSerializer(required=False)
 
     class Meta:
         model = Post
         fields = (
             'title', 'content', 'uuid', 'author', 'votes',
             'comments', 'created_at', 'updated_at', 'tags',
-            'user_vote', 'user_bookmark'
+            'user_vote', 'user_bookmark', 'group', 'status',
         )
-
-    def get_votes(self, obj):
-        if obj.votes.exists():
-            post = obj.votes.aggregate(votes=Sum('vote'))
-            return post['votes']
-        return 0
 
     def get_comments(self, obj):
         return PostComment.objects.filter(post=obj, is_removed=False).count()
@@ -40,7 +42,7 @@ class PostSerializer(serializers.ModelSerializer):
             votes = PostVote.objects.filter(post=obj, user=request.user)\
                 .order_by('-updated_at')
             if votes.exists():
-                return PostVoteLightSerializer(votes.first()).data
+                return PostVoteSerializer(votes.first()).data
         return None
 
     def get_user_bookmark(self, obj):
@@ -53,13 +55,20 @@ class PostSerializer(serializers.ModelSerializer):
         return None
 
 
+class PostReadOnlySerializer(ModelReadOnlySerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
 class PostEditSerializer(serializers.ModelSerializer):
     tags = TagSerializer(required=False, many=True)
+    group = GroupSerializer(required=False)
 
     class Meta:
         model = Post
         fields = (
             'uuid', 'title', 'content', 'author', 'tags',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'group', 'status'
         )
         read_only_fields = ('uuid',)

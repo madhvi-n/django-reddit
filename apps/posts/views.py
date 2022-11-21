@@ -1,7 +1,4 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from posts.models import Post
+from posts.models import Post, PostVote
 from core.views import BaseViewSet, BaseReadOnlyViewSet
 from posts.serializers import PostSerializer, PostEditSerializer
 from rest_framework import viewsets, generics, status, filters
@@ -11,18 +8,20 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from comments.serializers import PostCommentCreateSerializer, PostCommentSerializer
 from django.contrib.auth.models import User
+from posts.filters import PostFilterSet
 
 
 class PostPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
 
 
 class PostViewSet(BaseReadOnlyViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().exclude(status=Post.STATUS.DRAFT)
     serializer_class = PostSerializer
     pagination_class = PostPagination
     lookup_field = 'uuid'
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = PostFilterSet
     search_fields = ['title', 'content']
     ordering_fields= ['created_at', 'updated_at']
 
@@ -41,12 +40,38 @@ class PostViewSet(BaseReadOnlyViewSet):
         serializer = serializer_class(post, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def _common_vote_method(self, request, method):
+        post = self.get_object()
+        user = request.user
+        vote, created = PostVote.objects.get_or_create(post=post, user=user)
+        if method == "upvote":
+            vote.vote = 1
+        elif method == "downvote":
+            vote.vote = -1
+        else:
+            vote.vote = 0
+        vote.save()
+        return Response({"vote": vote.vote, "votes": post.score}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['put'])
+    def upvote(self, request, uuid=None):
+        return self._common_vote_method(request, "upvote")
+
+    @action(detail=True, methods=['put'])
+    def downvote(self, request, uuid=None):
+        return self._common_vote_method(request, "downvote")
+
+    @action(detail=True, methods=['put'])
+    def remove_vote(self, request, uuid=None):
+        return self._common_vote_method(request, "remove_vote")
+
 
 class PostSelfViewSet(BaseViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     lookup_field = 'uuid'
     serializer_class = PostEditSerializer
     pagination_class = PostPagination
+    filterset_class = PostFilterSet
     permission_classes = [IsAuthenticated, ]
     serializer_action_classes = {
         'list' : PostSerializer,
@@ -158,7 +183,18 @@ class PostSelfViewSet(BaseViewSet):
 
         if post.author != user:
             return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
-
         post.status = Post.STATUS.ARCHIVED
+        post.save()
+        return Response({'success': True}, status=status.HTTP_200_OK)
+
+    def save_draft(self, request, uuid=None):
+        post = self.get_object()
+        user = request.user
+        if not user.is_authenticated:
+            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        if post.author != user:
+            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+        post.status = Post.STATUS.DRAFT
         post.save()
         return Response({'success': True}, status=status.HTTP_200_OK)
