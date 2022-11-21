@@ -17,41 +17,40 @@ export class CommentFooterComponent implements OnInit {
   @Output() mention = new EventEmitter<any>();
   @Output() nestedReply = new EventEmitter<any>();
   can_reply: boolean = true;
-  vote = 0;
-  total = 0;
+  nestedReplyFlag: boolean = false;
+  user_vote = 0;
 
   constructor(private commentService: CommentService
   ) { }
 
   ngOnInit() {
-    this.vote = this.comment?.user_vote?.vote;
     if (this.user.id == this.comment.user.id) {
       this.can_reply = false;
     }
-    if (this.user.id !== this.comment.user.id) {
-      this.can_reply = true;
-    }
+    this.checkUserVote();
   }
 
-  checkUserVote() {
-    // if (this.comment.is_removed) {
-    //   return;
-    // }
+  checkUserVote(){
+    this.commentService.checkUserVote(this.uuid, this.comment.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.setVoteData(response);
+      })
   }
 
   setVoteData(response) {
-    this.vote = response.vote;
-    this.total = response.votes;
+    this.user_vote = response?.vote;
+    this.comment.votes = response?.votes;
   }
 
   upvoteClicked() {
     if (this.comment.is_removed) {
       return;
     }
-    if (this.vote == 1) {
+    if (this.user_vote == 1) {
       this.removeVote();
     } else {
-      this.updateComment();
+      this.upvoteComment();
     }
   }
 
@@ -59,15 +58,15 @@ export class CommentFooterComponent implements OnInit {
     if (this.comment.is_removed) {
       return;
     }
-    if (this.vote == -1) {
+    if (this.user_vote == -1) {
       this.removeVote();
     } else {
-      this.updateComment();
+      this.downvoteComment();
     }
   }
 
-  createComment() {
-    this.commentService.createComment(this.uuid, this.comment.id).subscribe(
+  upvoteComment() {
+    this.commentService.upvoteComment(this.uuid, this.comment.id).subscribe(
       (response: any) => {
         this.setVoteData(response);
       }, (err) => {
@@ -77,7 +76,7 @@ export class CommentFooterComponent implements OnInit {
   }
 
   removeVote() {
-    this.commentService.removeCommentVote(this.uuid, this.comment.id, this.comment.user_vote.id).subscribe(
+    this.commentService.removeVote(this.uuid, this.comment.id).subscribe(
       (response) => {
         this.setVoteData(response);
       }, (err) => {
@@ -86,9 +85,10 @@ export class CommentFooterComponent implements OnInit {
     );
   }
 
-  updateComment() {
-    this.commentService.updateComment(this.uuid, this.comment.id, this.comment.user_vote.id).subscribe(
+  downvoteComment() {
+    this.commentService.downvoteComment(this.uuid, this.comment.id).subscribe(
       (response) => {
+        console.log(response);
         this.setVoteData(response);
       }, (err) => {
         console.log(err);

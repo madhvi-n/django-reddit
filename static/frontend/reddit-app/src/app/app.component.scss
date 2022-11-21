@@ -35,16 +35,22 @@
 }
 
 .bg-container {
-  background-color: #e6e6e6;
+  background-color: #f5f5f5;
+}
+
+.bg-white {
+  background-color: white;
 }
 
 .container {
   min-height: calc(100vh - 56px);
-  width: 100%;
+  width: auto;
   overflow-x: hidden;
   padding: 32px;
-  max-width: 800px;
   margin: auto;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .unauth-container {
@@ -88,4 +94,12 @@
   @media only screen and (max-width: 720px) {
     display: none;
   }
+}
+
+.footer {
+  padding: 8px 16px;
+  color: #232323;
+  font-weight: 300;
+  text-align: center;
+  font-size: 14px;
 }

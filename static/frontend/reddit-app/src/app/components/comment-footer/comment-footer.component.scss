@@ -1,11 +1,13 @@
 .button-active {
-  color : #f15a24;
-  border: 1px solid #f15a24;
+  color: #DC281E!important;
+  border: 1px solid #DC281E!important;
+  border-radius: 50%;
 }
 
 .button-inactive {
   color : #545454;
   border: 1px solid #d3d3d3;
+  border-radius: 50%;
 }
 
 .reply-btn {
@@ -29,7 +31,6 @@
 
 .border {
   border: 1px solid #dedede;
-  border-radius: 50%;
 }
 
 .comment-votes {

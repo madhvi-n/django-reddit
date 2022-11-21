@@ -1,5 +1,5 @@
 <section class="app-comment-section">
-  <ng-container *ngIf="user_checked || is_authenticated">
+  <ng-container *ngIf="user_checked || is_authenticated && commentable">
     <section id="createsection" class="comment-create" style="margin-bottom:16px;">
       <app-comment-create
         [user]="user"
@@ -8,8 +8,8 @@
         (comment_response)="created($event)"
         (remove_mention)="removeMention($event)"
         (clear_comment)="clearComment($event)"
-        style="height:170px"
         [nested]="nested && current_nest_depth < max_nest_depth"
+        style="height:170px"
         [parent]="parent"
         [child_group]="child_group">
 
@@ -21,6 +21,7 @@
         </div>
       </app-comment-create>
     </section>
+
     <section class="comment-list" style="height:100%" *ngIf="comments">
       <app-comment-list
         [comments]="comments"
@@ -46,7 +47,4 @@
       </div>
     </ng-template>
   </ng-container>
-  <!-- <ng-template #toggleCommentsButton>
-    <a *ngIf="comments_count > 0" class="font-sm black-text bold" style="margin:30px; text-decoration:none" (click)="toggleComments(false)">Show comments</a>
-  </ng-template> -->
 </section>

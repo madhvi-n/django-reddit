@@ -19,6 +19,8 @@ export class CommentGroupComponent implements OnInit {
   @Input() current_nest_depth: number = 0;
   @Input() parent: number;
   @Input() child_group = false;
+  @Input() commentable: boolean = true;
+
   next = null;
   page = 1;
   is_authenticated: boolean = false;
@@ -69,7 +71,6 @@ export class CommentGroupComponent implements OnInit {
   }
 
   getComments() {
-    console.log(this.uuid, this.page, this.child_group, this.parent);
     this.commentService.getComments(this.uuid, this.page, this.child_group, this.parent).subscribe(
       (response: any) => {
         this.showLoader = false;
@@ -87,10 +88,6 @@ export class CommentGroupComponent implements OnInit {
     }
   }
 
-  toggleComments(flag: boolean) {
-    this.create_only = flag;
-  }
-
   setComments(response: any) {
     this.next = response.next;
     if (this.next) {
@@ -98,15 +95,12 @@ export class CommentGroupComponent implements OnInit {
     }
     this.comments = [...this.comments, ...response.results];
     this.comments_count = response.count;
-    // console.log(this.comments)
   }
 
   created(data: any) {
     this.comments.unshift(data);
     this.create_only = false;
     this.counter.emit(this.comments.length);
-    // console.log(data);
-    // this.getComments();
   }
 
   goToLogin() {

@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -26,5 +28,6 @@ urlpatterns = [
     re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     path('', include('posts.urls')),
     path('', include('tags.urls')),
+    path('', include('groups.urls')),
     path('', include('profiles.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

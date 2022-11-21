@@ -1,14 +1,14 @@
 <div class="login-container" fxLayout="row" fxLayoutAlign="center center" fxFlex="100">
   <div class="bg-2" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
-    <div style="width:100%; height:100vh" fxLayout="row" fxLayoutAlign="center center">
+    <div class="width-100" style="height:100vh" fxLayout="row" fxLayoutAlign="center center">
       <div class="auth-container shadow-md">
-        <form class="width-100" [formGroup]="loginForm" fxLayout="column">
-          <mat-form-field style="margin:6px 0" appearance="outline" class="width-100">
+        <form class="width-100" [formGroup]="loginForm" fxLayout="column" fxLayoutGap="6px">
+          <mat-form-field appearance="outline" class="width-100">
             <mat-label>Enter your email</mat-label>
             <input matInput type="email" autocomplete="email" formControlName="email" placeholder="Email address" required>
           </mat-form-field>
 
-          <mat-form-field style="margin:6px 0" appearance="outline" class="width-100">
+          <mat-form-field appearance="outline" class="width-100">
             <mat-label>Enter your password</mat-label>
             <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
             <button mat-icon-button matSuffix (click)="toggleVisibility()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
@@ -17,14 +17,16 @@
           </mat-form-field>
         </form>
 
-        <button mat-button class="btn-primary block-button" (click)="onSubmit()">Sign In</button>
+        <button mat-raised-button color="primary" class="block-button" (click)="onSubmit()">Sign In</button>
 
         <p class="text-center"> OR </p>
-        <button mat-button class="btn-primary block-button">Sign In with Google</button>
+        <button mat-raised-button color="primary" class="block-button" disabled>Sign In with Google</button>
         <div class="margin-y-3"></div>
-        <button mat-button class="btn-secondary block-button">Sign In with Facebook</button>
+        <button mat-raised-button color="primary" class="block-button" disabled>Sign In with Facebook</button>
 
-        <p class="margin-top-4">Haven't registered yet? <a [routerLink]="['../sign-up']">Sign Up</a></p>
+        <p class="margin-top-4">Haven't registered yet?
+          <a class="underline" style="color: blue;"[routerLink]="['../sign-up']">Sign Up</a>
+        </p>
       </div>
     </div>
   </div>

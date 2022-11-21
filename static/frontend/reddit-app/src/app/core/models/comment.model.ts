@@ -21,3 +21,9 @@ export class Comment {
     vote: number;
   }
 }
+
+export class UserComment {
+  id: number;
+  comment: string;
+  created_at: string;
+}

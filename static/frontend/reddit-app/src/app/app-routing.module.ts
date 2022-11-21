@@ -8,7 +8,11 @@ import { AuthGuard } from './core/guards/auth/auth.guard';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
 import { SearchComponent } from './components/search/search.component';
-import { ProfileComponent } from './profiles/profiles.component';
+import { ProfileComponent } from './profiles/profiles/profiles.component';
+import { GroupComponent } from './group/group/group.component';
+import { GroupRouterComponent } from './group/group-router/group-router.component';
+import { GroupPostComponent } from './group/group-post/group-post.component';
+import { CreateGroupComponent } from './group/create-group/create-group.component';
 
 const routes: Routes = [
   {
@@ -36,8 +40,33 @@ const routes: Routes = [
     component: SignOutComponent
   },
   {
-    path: 'profile',
+    path: 'user/:username',
     component: ProfileComponent,
+  },
+  {
+    path: 'group',
+    component: GroupRouterComponent,
+    children: [
+      {
+        path: 'submit-post',
+        canActivate: [AuthGuard],
+        component: GroupPostComponent
+      },
+      {
+        path: 'create-new',
+        canActivate: [AuthGuard],
+        component: CreateGroupComponent
+      },
+      {
+        path: ':id',
+        component: GroupComponent
+      },
+      {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: ':uuid',

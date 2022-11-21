@@ -1,24 +1,26 @@
 <div class="login-container" fxLayout="row" fxLayoutAlign="center center" fxFlex="100">
   <div class="bg-2" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
-    <div style="width:100%; height:100vh" fxLayout="row" fxLayoutAlign="center center">
+    <div class="width-100" style="height:100vh" fxLayout="row" fxLayoutAlign="center center">
       <div class="auth-container shadow-md">
-      <form class="width-100" [formGroup]="registerForm" fxLayout="column">
-        <mat-form-field style="margin:6px" appearance="outline" class="width-100">
-          <mat-label>First name</mat-label>
-          <input matInput type="text" formControlName="first_name" placeholder="First name" required>
-        </mat-form-field>
+      <form class="width-100" [formGroup]="registerForm" fxLayout="column" fxLayoutGap="6px">
+        <div class="" fxLayout="row" fxLayoutGap="16px">
+          <mat-form-field appearance="outline" class="width-100">
+            <mat-label>First name</mat-label>
+            <input matInput type="text" formControlName="first_name" placeholder="First name" required>
+          </mat-form-field>
 
-        <mat-form-field style="margin:6px" appearance="outline" class="width-100">
-          <mat-label>Last name</mat-label>
-          <input matInput type="text" formControlName="last_name" placeholder="Last name" required>
-        </mat-form-field>
+          <mat-form-field appearance="outline" class="width-100">
+            <mat-label>Last name</mat-label>
+            <input matInput type="text" formControlName="last_name" placeholder="Last name" required>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field style="margin:6px" appearance="outline" class="width-100">
+        <mat-form-field appearance="outline" class="width-100">
           <mat-label>Email address</mat-label>
           <input matInput type="email" formControlName="email" placeholder="Email" required>
         </mat-form-field>
 
-        <mat-form-field style="margin:6px" appearance="outline" class="width-100">
+        <mat-form-field appearance="outline" class="width-100">
           <mat-label>Password</mat-label>
           <input matInput formControlName="password1" [type]="hidePassword ? 'password' : 'text'">
           <button mat-icon-button matSuffix (click)="toggleVisibility()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
@@ -26,7 +28,7 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field style="margin:6px" appearance="outline" class="width-100">
+        <mat-form-field appearance="outline" class="width-100">
           <mat-label>Confirm Password</mat-label>
           <input matInput formControlName="password2" [type]="hidePassword ? 'password' : 'text'">
           <button mat-icon-button matSuffix (click)="toggleVisibility()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
@@ -36,10 +38,11 @@
 
       </form>
 
-      <button mat-button class="btn-primary block-button"
-      [disabled]="!registerForm.valid || isLoading "(click)="onSubmit()">Register</button>
+      <button mat-raised-button color="primary" class="block-button" [disabled]="!registerForm.valid || isLoading "(click)="onSubmit()">
+        Register
+      </button>
 
-      <p>Already have an account? <a [routerLink]="['../sign-in']">Sign In</a></p>
+      <p>Already have an account? <a class="underline" style="color:blue;"[routerLink]="['../sign-in']">Sign In</a></p>
     </div>
   </div>
 </div>

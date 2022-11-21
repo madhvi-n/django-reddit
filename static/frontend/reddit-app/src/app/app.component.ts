@@ -8,6 +8,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { MatDialog } from '@angular/material/dialog';
+import { CreateGroupComponent } from './group/create-group/create-group.component';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,8 @@ export class AppComponent implements OnInit, AfterContentChecked {
     private router: Router,
     private userService: UserService,
     private cookieService: CookieService,
-    private storage: StorageHandlerService
+    private storage: StorageHandlerService,
+    private dialog: MatDialog
   ) {
     this.router.events.subscribe(
       () => this.path = this.router.url
@@ -62,6 +65,19 @@ export class AppComponent implements OnInit, AfterContentChecked {
       });
   }
 
+  createGroup() {
+    const dialogRef = this.dialog.open(CreateGroupComponent, {
+      data: {
+        user: this.user,
+      },
+      width: '600px',
+      minHeight: '300px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
   search() {
 
     this.router.navigate(['search'], {

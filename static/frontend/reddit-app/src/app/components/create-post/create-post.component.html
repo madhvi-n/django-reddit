@@ -1,13 +1,12 @@
 <ng-container *ngIf="isLoading; else showContent">
-  <div class="post-create" fxLayout="row-reverse" fxLayoutAlign="center center" fxLayoutGap="10px">
+  <div class="post-create" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
     <mat-spinner color="warn" [diameter]="30"></mat-spinner>
   </div>
 </ng-container>
 <ng-template #showContent>
   <mat-card class="post-create">
-
-    <form [formGroup]="blogForm" class="blog-form">
-      <mat-form-field appearance="outline" style="width:100%">
+    <form [formGroup]="blogForm" class="blog-form" fxLayout="column">
+      <mat-form-field appearance="outline" class="width-100">
         <mat-label>Title</mat-label>
         <input matInput #title maxlength="200" formControlName="title" placeholder="Title">
         <mat-hint align="end">{{ title.value.length}} / 200</mat-hint>
@@ -15,13 +14,18 @@
 
       <div class=""></div>
 
-      <mat-form-field appearance="none" style="width:100%">
-        <textarea matInput (froalaInit)="initializeFroala($event)" [froalaEditor]="options" formControlName="content" cdkTextareaAutosize cdkAutosizeMinRows="3" class="font-sm fr-view-text">
+      <mat-form-field appearance="none" class="width-100">
+        <textarea matInput (froalaInit)="initializeFroala($event)" [froalaEditor]="options" formControlName="content"
+          cdkTextareaAutosize cdkAutosizeMinRows="3" class="font-sm fr-view-text">
         </textarea>
       </mat-form-field>
 
-      <button mat-raised-button color="warn" style="float:right" (click)="submit()">Post</button>
-    </form>
+      <!-- <input type="file"  formControlName="cover" (change)="onFileSelected($event.target.files)" #fileUpload> -->
 
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="24px">
+        <button mat-raised-button (click)="submit()" disabled>Save draft</button>
+        <button mat-raised-button color="warn" (click)="submit()">Post</button>
+      </div>
+    </form>
   </mat-card>
 </ng-template>

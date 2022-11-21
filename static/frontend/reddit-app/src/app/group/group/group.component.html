@@ -1,0 +1,73 @@
+<div fxLayout="column">
+  <div class="row-container shadow-sm width-100" fxLayout="row" fxLayoutGap="16px">
+    <div class="default-community-cover">
+      <div class="community-avatar shadow-md">
+        <!-- <mat-icon class="community-icon">people</mat-icon> -->
+        <img class="community-icon" src="https://cdn-icons-png.flaticon.com/512/2170/2170765.png" alt="Community">
+      </div>
+    </div>
+  </div>
+
+  <div class="row-container width-100" fxLayout="row" fxLayoutGap="16px">
+    <div class="child-container-1 group-card shadow-sm" fxLayout="column" fxFlex="70" fxFlex.lt-lg="100">
+      <app-group-feed></app-group-feed>
+    </div>
+
+    <div class="child-container-2" fxLayout="column" fxFlex="30" fxHide.lt-lg>
+      <div class="group-card shadow-sm about-section">
+        <div fxLayout="column" class="width-100" fxLayoutGap="8px">
+          <span class="heading-5 text-uppercase">
+            About Community
+          </span>
+          <br>
+          <span class="heading-4 font-bold">g/{{group.name }}</span>
+
+          <span *ngIf="group.description" class="color-tertiary desc-text" [innerHtml]="group.description | safeContent"></span>
+          <span *ngIf="!group.description" class="color-tertiary desc-text">g/{{ group.name}} hasn't added any description yet.</span>
+
+          <div class="margin-y-3">
+            <mat-divider></mat-divider>
+          </div>
+
+          <div class="desc-text color-tertiary" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="gappx">
+            <span *ngIf="group.members_count">
+              {{ group.members_count }} Member(s)
+            </span>
+            <span fxLayoutAlign="start center" fxLayoutGap="8px">
+              <mat-icon>calendar_today</mat-icon>
+              Created {{ group.created_at | date }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="group-card shadow-sm rules-section" fxLayout="row" *ngIf="group.rules.length">
+        <div fxLayout="column">
+          <span class="heading-5 text-uppercase">
+            Community Rules
+          </span>
+
+          <div fxLayout="column" fxLayoutGap="4px">
+            <ng-container *ngFor="let rule of group?.rules; let last=last;">
+              <mat-expansion-panel style="box-shadow:none">
+                <mat-expansion-panel-header style="padding: 2px 8px;">
+                    <b class="padding-right-1">
+                      {{ rule.title }}
+                    </b>
+                </mat-expansion-panel-header>
+                <p [innerHtml]="rule.description | safeContent"></p>
+              </mat-expansion-panel>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="group-card shadow-sm related-section">
+        <span class="heading-5 text-uppercase">
+          Moderators
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

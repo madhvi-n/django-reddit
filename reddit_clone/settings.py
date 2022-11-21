@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'corsheaders',
+    'ckeditor',
+    'ckeditor_uploader',
+    'django_filters',
     'core',
     'tags',
     'posts',
@@ -64,13 +67,13 @@ INSTALLED_APPS = [
     'comments',
     'bookmarks',
     'followers',
-    'votes',
-    'reports'
+    'reports',
+    'groups'
 ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,6 +122,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend', # new
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -177,10 +186,12 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -195,3 +206,46 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:4200",
 ]
+
+
+####################################
+    ##  CKEDITOR CONFIGURATION ##
+####################################
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbarCanCollapse': True,
+        'toolbar_Custom': [
+            {'name': 'clipboard', 'items': ['Source', '-', 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo', '-', 'Scayt']},
+            '/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList','Outdent', 'Indent','Blockquote', 'CreateDiv',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',]},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks','Preview',]}
+        ],
+        'extraPlugins': ','.join([
+            'div',
+            'autolink',
+            'autoembed',
+            'scayt',
+            'lineutils',
+            'clipboard',
+        ]),
+    }
+}
+
+###################################

@@ -2,13 +2,16 @@
   <mat-toolbar color="secondary" class="header shadow-sm" *ngIf="!authRoute">
     <div style="display:flex; gap:10px; align-items: center">
       <img src="../assets/favicon/apple-touch-icon.png" alt="Icon" height="30" width="30">
-      <a [routerLink]="['']" class="font-bold color-primary navbar-brand" style="text-decoration:none">
+      <a mat-flat-button [routerLink]="['']" class="font-bold color-primary navbar-brand" style="text-decoration:none">
         Django Reddit
       </a>
       <div></div>
       <div></div>
-      <a mat-flat-button [routerLink]="['create']" style="text-decoration:none">
+      <a mat-flat-button [routerLink]="['create']" class="color-tertiary">
         Create post
+      </a>
+      <a mat-flat-button (click)="createGroup()" class="color-tertiary">
+        Create group
       </a>
     </div>
 
@@ -28,7 +31,7 @@
     <ng-container *ngIf="user; else elseTemplate">
       <div class="buttons-section" *ngIf="user" style="display:flex; align-items:center; gap: 6px;">
 
-        <a mat-icon-button [routerLink]="[ 'profile']">
+        <a mat-icon-button [routerLink]="[ 'user', user.username]">
           <mat-icon>person</mat-icon>
         </a>
         <span style="vertical-align:middle; font-size:16px;">{{ user?.username }}</span>
@@ -51,3 +54,9 @@
     </div>
   </main>
 </div>
+
+
+<footer class="footer" *ngIf="!authRoute">
+  Terms of policy . Privacy policy .
+  Copyright@2022 . <a href="https://github.com/madhvi-n/django-reddit">Madhvi N.</a>
+</footer>

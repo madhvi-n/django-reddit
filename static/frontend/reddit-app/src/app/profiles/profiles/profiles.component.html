@@ -1,0 +1,88 @@
+<div fxLayout="row" fxLayoutGap="16px">
+  <div class="profile-container" fxLayout="column" fxFlex="70" fxFlex.lt-lg="100">
+    <div class="width-100">
+      <mat-tab-group class="width-100" color="warn" dynamicHeight animationDuration="0ms" mat-align-tabs="center">
+        <mat-tab label="Overview">
+          <div class="content">
+            <app-profile-overview></app-profile-overview>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Posts">
+          <div class="content">
+            <app-profile-posts></app-profile-posts>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Comments">
+          <div class="content">
+            <app-profile-comments [comments]="userComments" [user]="user"></app-profile-comments>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Upvotes">
+          <div class="content">
+            <app-profile-upvotes></app-profile-upvotes>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Downvotes">
+          <div class="content">
+            <app-profile-downvotes></app-profile-downvotes>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="History">
+          <div class="content">
+            <app-profile-history></app-profile-history>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Saved">
+          <div class="content">
+            <app-profile-bookmarks></app-profile-bookmarks>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+  <div class="" fxLayout="column" fxFlex="30" fxHide.lt-lg>
+    <div class="related-section">
+      <div class="bg-blue"></div>
+      <div class="user-avatar">
+        <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" height="100" width="100">
+      </div>
+
+      <div class="user-content" fxLayout="column">
+        <span class="font-bold">{{ user.first_name }} {{ user.last_name }}</span>
+        <span class="color-tertiary">@{{ user.username }}</span>
+        <span class="font-light color-tertiary user-meta-text">User since {{ user.date_joined | date }}</span>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <span class="heading-5 font-bold">
+        Your groups
+
+        <mat-nav-list>
+          <mat-list-item *ngFor="let group of userGroups">
+             <a matLine [routerLink]="[ '../../group', group.id ]">{{ group.name }}</a>
+          </mat-list-item>
+        </mat-nav-list>
+      </span>
+    </div>
+
+    <div class="related-section">
+      <span class="heading-5 font-bold">
+        You're a moderator of these groups
+
+        <mat-nav-list>
+          <mat-list-item *ngFor="let member of modGroups">
+             <a matLine [routerLink]="[ '../../group', member.group.id ]">{{ member.group.name }}</a>
+          </mat-list-item>
+        </mat-nav-list>
+      </span>
+    </div>
+  </div>
+</div>

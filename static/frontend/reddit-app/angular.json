@@ -29,14 +29,9 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-              "./node_modules/froala-editor/css/froala_style.min.css",
-              "./node_modules/froala-editor/css/froala_editor.min.css",
-              "./node_modules/froala-editor/css/plugins.pkgd.min.css",
             ],
             "scripts": [
-              "./node_modules/froala-editor/js/froala_editor.min.js",
-              "./node_modules/froala-editor/js/plugins.pkgd.min.js",
+
             ]
           },
           "configurations": {
@@ -100,14 +95,9 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-              "./node_modules/froala-editor/css/froala_style.min.css",
-              "./node_modules/froala-editor/css/froala_editor.min.css",
-              "./node_modules/froala-editor/css/plugins.pkgd.min.css",
             ],
             "scripts": [
-              "./node_modules/froala-editor/js/froala_editor.min.js",
-              "./node_modules/froala-editor/js/plugins.pkgd.min.js",
+              
             ]
           }
         },

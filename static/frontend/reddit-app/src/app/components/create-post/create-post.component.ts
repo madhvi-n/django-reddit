@@ -19,13 +19,14 @@ import { User } from '@reddit/core/models/user.model';
 })
 export class CreatePostComponent implements OnInit {
   public editor;
-  public imageUploadUrl;
-  public csrftoken;
 
   blogForm: FormGroup;
   content: any;
   user: User;
   isLoading: boolean = true;
+  userGroups: [] = [];
+  selected: null;
+  formData: any;
 
   constructor(
     private postService: PostService,
@@ -58,11 +59,6 @@ export class CreatePostComponent implements OnInit {
   }
 
   public options: Object = {
-    // key: this._connectionConfig.froalaV3Key,
-    // requestHeaders: {
-    //   'X-CSRFToken': this.cookieService.get('csrftoken'),
-    // },
-    // requestWithCredentials: true,
     iframe: true,
     attribution: false,
     autofocus: true,
@@ -75,13 +71,8 @@ export class CreatePostComponent implements OnInit {
     multiLine: true,
     pastePlain: true,
     heightMin: 400,
-    // toolbarVisibleWithoutSelection: true,
-    // htmlAllowedEmptyTags: ['textarea', 'a', 'iframe', 'span'],
-    quickInsertEnabled: true,
-    quickInsertButtons: ['image', 'video', 'sectionDivider', 'reference', 'horizontalLine'],
-    pluginsEnabled: ['align', 'charCounter', 'link', 'lists', 'paragraphFormat', 'paragraphStyle',
-      'quote', 'quickInsert', 'image', 'video', 'embedly', 'emoticons', 'print', 'file', 'fullscreen',
-      'help', 'inlineClass', 'specialCharacters'],
+    quickInsertEnabled: false,
+    pluginsEnabled: ['aviary', 'image', 'fontFamily', 'fontSize', 'help', 'colors', 'paragraphStyle', 'align', 'lists', 'outdent', 'indent', 'paragraphFormat', 'specialCharacters', 'hr', 'clearFormatting', 'link', 'embedly', 'file', 'table', 'undo', 'redo', 'spellchecker'],
     toolbarButtons: {
       'moreText': {
         'buttons': ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'],
@@ -89,7 +80,6 @@ export class CreatePostComponent implements OnInit {
       },
       'moreParagraph': {
         'buttons': ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight', 'alignJustify', 'formatOL', 'formatUL', 'quote'],
-        // align: 'left',
         'buttonsVisible': 5
       },
       'moreRich': {
@@ -114,8 +104,6 @@ export class CreatePostComponent implements OnInit {
     imageDefaultWidth: 100, // sets default as 100%
     videoResponsive: true,
     videoInsertButtons: ['videoBack', '|', 'videoEmbed', 'videoByURL',],
-    // videoDefaultWidth: 640,
-    // videoDefaultHeight: 360,
     videoAllowedTypes: ['mp4'],
     videoAllowedProviders: ['youtube', 'vimeo'],
     videoEditButtons: ['videoReplace', 'videoRemove'],
@@ -126,7 +114,6 @@ export class CreatePostComponent implements OnInit {
     events: {
       'initialized': function(e, that = this) {
         console.log(e);
-        // console.log(this);
       },
       'video.inserted': () => {
       },
@@ -142,7 +129,6 @@ export class CreatePostComponent implements OnInit {
   public initializeFroala(initControls) {
     initControls.initialize();
     this.editor = initControls.getEditor();
-    // console.log(this.editor);
   }
 
   getAuthUser(): void {
@@ -170,5 +156,13 @@ export class CreatePostComponent implements OnInit {
       }
     )
   }
+
+  // onFileSelected(files: any) {
+  //   const file:File = files[0];
+  //   if(file) {
+  //     this.formData = new FormData();
+  //     this.formData.append("image", file);
+  //   }
+  // }
 
 }
