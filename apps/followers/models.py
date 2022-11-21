@@ -19,7 +19,7 @@ class PostFollower(AbstractFollower):
         verbose_name_plural = "Post Followers"
 
     def __str__(self):
-        return str(self.post.title) + " followed by " + str(self.follower.username)
+        return f"{self.follower.username} started following {self.post.title}"
 
 
 class UserFollower(AbstractFollower):
@@ -36,4 +36,4 @@ class UserFollower(AbstractFollower):
         verbose_name_plural = "User Followers"
 
     def __str__(self):
-        return str(self.followed_user.username) + " followed by " + str(self.follower.username)
+        return f"{self.follower.username} started following {self.followed_user.username}"

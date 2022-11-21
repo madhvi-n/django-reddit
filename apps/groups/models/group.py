@@ -39,4 +39,4 @@ class Group(TimeStampedModel):
         verbose_name_plural = "Groups"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"Group: {self.name}"

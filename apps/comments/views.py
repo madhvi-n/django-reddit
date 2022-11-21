@@ -106,12 +106,12 @@ class PostCommentViewSet(BaseViewSet):
 
     def destroy(self, request, post_uuid=None, pk=None):
         comment = self.get_object()
-        # user = request.user
-        # if comment.user != user:
-        #     return Response (
-        #         {'error' : 'User not authorized'},
-        #         status=status.HTTP_401_UNAUTHORIZED
-        #     )
+        user = request.user
+        if comment.user != user:
+            return Response (
+                {'error' : 'User not authorized'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
         comment.is_removed = True
         comment.save()
         return Response({'success': True}, status=status.HTTP_200_OK)

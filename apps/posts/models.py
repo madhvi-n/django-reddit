@@ -44,7 +44,7 @@ class Post(TimeStampedModel):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Post: {self.uuid} by {self.author.username}"
+        return f"Post: {self.uuid} published by {self.author.username}"
 
     def _get_score(self):
         score = 0

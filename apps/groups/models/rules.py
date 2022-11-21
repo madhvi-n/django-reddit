@@ -29,4 +29,4 @@ class GroupRule(TimeStampedModel):
         verbose_name_plural = "Group Rules"
 
     def __str__(self):
-        return f"{self.group.name} : {self.title[:40]}"
+        return f"{self.group.name} rule : {self.title[:40]}"

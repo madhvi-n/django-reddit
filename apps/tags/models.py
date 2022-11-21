@@ -11,7 +11,7 @@ class TagType(TimeStampedModel):
         verbose_name_plural = 'Tag Types'
 
     def __str__(self):
-        return str(self.title)
+        return f"{self.title}"
 
 
 class Tag(TimeStampedModel):
@@ -27,4 +27,4 @@ class Tag(TimeStampedModel):
         verbose_name_plural = 'Tags'
 
     def __str__(self):
-        return str(self.name)
+        return f"{self.name}"

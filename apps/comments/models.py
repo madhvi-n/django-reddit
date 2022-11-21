@@ -25,7 +25,7 @@ class PostComment(AbstractComment):
         verbose_name_plural = "Post Comments"
 
     def __str__(self):
-        return "Comment on " + self.post.title + " by " + self.user.username
+        return f"Comment: {self.post.title} by {self.user.username}"
 
     def _get_score(self):
         score = 0
@@ -49,4 +49,4 @@ class PostCommentVote(AbstractCommentVote):
         verbose_name_plural = "Post Comment Votes"
 
     def __str__(self):
-        return f"{self.vote}  point by  {self.user.username}"
+        return f"{self.vote} point by {self.user.username}"

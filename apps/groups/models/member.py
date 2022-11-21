@@ -53,4 +53,4 @@ class GroupMember(TimeStampedModel):
         verbose_name_plural = "Group Members"
 
     def __str__(self):
-        return f"{self.group.name}: {self.user.username} is added {self.member_type}"
+        return f"{self.user.username} added to {self.group.name} as {self.member_type}"
