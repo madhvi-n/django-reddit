@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { User } from '../../models/user.model';
+import { environment } from '@reddit/env/environment';
+import { User } from '@reddit/core/models/user.model';
 import { StorageHandlerService } from '../storage/storage-handler.service';
 
 @Injectable({
@@ -66,5 +66,9 @@ export class UserService {
 
   logout() {
     return this.http.post(this.serverUrl + '/rest-auth/logout/', {});
+  }
+
+  addInterests(username: string) {
+    return;
   }
 }

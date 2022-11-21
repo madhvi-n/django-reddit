@@ -37,16 +37,16 @@ export class PostService {
     return this.http.delete(this.baseUrl + 'posts/' + uuid + '/bookmarks/' + bookmark_id + '/');
   }
 
-  addVote(uuid: string, data) {
-    return this.http.post(this.baseUrl + 'posts/' + uuid + '/votes/', data);
+  upvotePost(uuid: string) {
+    return this.http.put(this.baseUrl + 'posts/' + uuid + '/upvote/', {});
   }
 
-  updateVote(uuid: string, vote_id: number, data) {
-    return this.http.put(this.baseUrl + 'posts/' + uuid + '/votes/' + vote_id + '/', data);
+  downvotePost(uuid: string) {
+    return this.http.put(this.baseUrl + 'posts/' + uuid + '/downvote/', {});
   }
 
-  deleteVote(uuid: string, vote_id: number) {
-    return this.http.delete(this.baseUrl + 'posts/' + uuid + '/votes/' + vote_id + '/');
+  removePostVote(uuid: string) {
+    return this.http.delete(this.baseUrl + 'posts/' + uuid + '/remove_vote/', {});
   }
 
 }

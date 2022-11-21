@@ -10,79 +10,63 @@ import { PostService } from '@reddit/core/services/post/post.service';
 export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() user_id: number;
+  user_vote = 0;
 
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
+    this.user_vote = this.post?.user_vote?.vote;
+  }
+
+  upvoteClicked(){
+    if (this.user_vote == 1) {
+      this.removeVote();
+    } else {
+      this.upvote();
+    }
+  }
+
+  downvoteClicked(){
+    if (this.user_vote == -1) {
+      this.removeVote();
+    } else {
+      this.downvote();
+    }
   }
 
   upvote() {
-    if(this.post.user_vote){
-      if(this.post.user_vote.vote == 1) {
-        this.removeVote();
-      } else {
-        const current_vote = this.post.user_vote.vote += 1
-        const data = {
-          user: this.user_id,
-          vote: current_vote
-        }
-        this.postService.updateVote(this.post.uuid, this.post.user_vote.id, data).subscribe(
-          (response:any) => {
-            this.post.user_vote = response;
-            this.post.votes += response.vote;
-          })
+    this.postService.upvotePost(this.post.uuid).subscribe(
+      (response: any) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
       }
-    } else {
-      const data = {
-        user: this.user_id,
-        vote: 1
-      }
-      this.postService.addVote(this.post.uuid, data).subscribe(
-        (response: any) => {
-          this.post.user_vote = response;
-          this.post.votes += response.vote;
-        })
-    }
+    );
   }
 
-  downvote() {
-    if(this.post.user_vote) {
-      if(this.post.user_vote.vote == -1) {
-        this.removeVote();
+  downvote(){
+    this.postService.downvotePost(this.post.uuid).subscribe(
+      (response) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
       }
-      const current = this.post.user_vote.vote -= 1
-      const data = {
-        user: this.user_id,
-        vote: current
-      }
-      this.postService.updateVote(this.post.uuid, this.post.user_vote.id, data).subscribe(
-        (response: any) => {
-          this.post.user_vote = response;
-          this.post.votes += response.vote;
-        });
-    } else {
-      const data = {
-        user: this.user_id,
-        vote: -1
-      }
-      this.postService.addVote(this.post.uuid, data).subscribe(
-        (response: any) => {
-          this.post.user_vote = response;
-          this.post.votes += response.vote;
-        })
-    }
+    );
   }
 
   removeVote() {
-    if(!this.post.user_vote?.id) {
-      return;
-    }
+    this.postService.removePostVote(this.post.uuid).subscribe(
+      (response) => {
+        this.setVoteData(response);
+      }, (err) => {
+        console.log(err);
+      }
+    );
+  }
 
-    this.postService.deleteVote(this.post.uuid, this.post.user_vote.id).subscribe(
-      (response: any) => {
-        this.post.user_vote = null;
-        // real time changes
-      })
+  setVoteData(response) {
+    this.user_vote = response?.vote;
+    this.post.votes = response?.votes;
   }
 
   checkBookmark() {
@@ -114,5 +98,9 @@ export class PostComponent implements OnInit {
       (err) => {
         console.log(err);
       });
+  }
+
+  sharePost(uuid: string) {
+
   }
 }

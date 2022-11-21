@@ -1,27 +1,22 @@
 from django.db import models
-from django.db.models import Q, F, Prefetch, Min, Max, Case, When, OuterRef, Subquery
+from django.db.models import Q, F
 from django.core.exceptions import ValidationError
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from core.views import BaseReadOnlyViewSet, BaseViewSet
-
 from posts.models import Post
-from comments.models import PostComment
-
+from comments.models import PostComment, PostCommentVote
 from comments.serializers import PostCommentSerializer, PostCommentCreateSerializer
-
 from comments.services import add_mentioned_users
 
 
 class PostCommentPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 24
 
 
 class PostCommentViewSet(BaseViewSet):
@@ -109,23 +104,17 @@ class PostCommentViewSet(BaseViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None, post_uuid=None):
+    def destroy(self, request, post_uuid=None, pk=None):
         comment = self.get_object()
-        user = request.user
-        if comment.user != user:
-            return Response (
-                {'error' : 'User not authorized'},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+        # user = request.user
+        # if comment.user != user:
+        #     return Response (
+        #         {'error' : 'User not authorized'},
+        #         status=status.HTTP_401_UNAUTHORIZED
+        #     )
         comment.is_removed = True
         comment.save()
         return Response({'success': True}, status=status.HTTP_200_OK)
-
-    # @action(detail=False)
-    # def user_comments(self, request, pk=None, post_uuid=None):
-    #     queryset = self.get_queryset().filter(Q(user=request.user) | Q(mentioned_users=request.user))
-    #     serializer = self.serializer_class(queryset, many=True)
-    #     return Response(serializer.data)
 
     @action(detail=True)
     def children(self, request, post_uuid=None, pk=None):
@@ -136,3 +125,39 @@ class PostCommentViewSet(BaseViewSet):
         queryset = children_comments.filter(is_removed=False).distinct()
         queryset = queryset | deleted_with_children
         return self.paginated_response(queryset)
+
+    @action(detail=True)
+    def check_vote(self, request, post_uuid=None, pk=None):
+        vote = False
+        comment = self.get_object()
+        if request.user.is_authenticated:
+            vote = PostCommentVote.objects.filter(post_comment=comment, user=request.user)
+            if vote.exists():
+                user_vote = PostCommentVote.objects.get(post_comment=comment, user=request.user)
+                return Response({"vote": user_vote.vote, "votes": comment.score}, status=status.HTTP_200_OK)
+        return Response({"vote": 0, "votes": comment.score}, status=status.HTTP_200_OK)
+
+    def _common_vote_method(self, request, method):
+        comment = self.get_object()
+        user = request.user
+        vote, created = PostCommentVote.objects.get_or_create(post_comment=comment, user=user)
+        if method == "upvote":
+            vote.vote = 1
+        elif method == "downvote":
+            vote.vote = -1
+        else:
+            vote.vote = 0
+        vote.save()
+        return Response({"vote": vote.vote, "votes": comment.score}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['put'])
+    def upvote(self, request, post_uuid=None, pk=None):
+        return self._common_vote_method(request, "upvote")
+
+    @action(detail=True, methods=['put'])
+    def downvote(self, request, post_uuid=None, pk=None):
+        return self._common_vote_method(request, "downvote")
+
+    @action(detail=True, methods=['put'])
+    def remove_vote(self, request, post_uuid=None, pk=None):
+        return self._common_vote_method(request, "remove_vote")

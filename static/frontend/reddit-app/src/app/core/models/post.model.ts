@@ -1,9 +1,12 @@
 import { User } from './user.model';
+import { Group } from './group.model';
+import { Tag } from './tag.model';
 
 export class Post {
   uuid: string;
   title: string;
   content: string;
+  status: string;
   created_at: string;
   updated_at: string;
   author: User;
@@ -11,4 +14,6 @@ export class Post {
   comments: number;
   user_vote: any;
   user_bookmark: any;
+  tags: Tag[];
+  group: Group;
 }

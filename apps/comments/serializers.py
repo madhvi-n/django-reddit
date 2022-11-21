@@ -9,10 +9,18 @@ from comments.models import PostComment
 from profiles.serializers import UserSerializer
 
 
+class PostCommentLightSerializer(serializers.ModelSerializer):
+    comment = serializers.ReadOnlyField(source='_get_comment')
+
+    class Meta:
+        model = PostComment
+        fields = ('id', 'comment', 'created_at')
+
+
 class PostCommentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     comment = serializers.ReadOnlyField(source='_get_comment')
-    votes = serializers.ReadOnlyField(source='_get_votes')
+    votes = serializers.ReadOnlyField(source='_get_score')
     mentioned_users = UserSerializer(many=True, required=False)
     edited = serializers.ReadOnlyField(source='is_edited')
     child_count = serializers.SerializerMethodField()

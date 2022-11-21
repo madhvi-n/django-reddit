@@ -1,24 +1,36 @@
-<mat-card class="post-card">
+<mat-card class="post-card" [ngClass]="{'archived-card': post.status === 'ARCHIVED'}">
   <div class="likes-section">
-    <button mat-icon-button (click)="upvote()">
-      <mat-icon class="large-icon" [ngClass]="{'active-icon': post?.user_vote?.vote == 1}">keyboard_arrow_up</mat-icon>
+    <button mat-icon-button (click)="upvoteClicked()">
+      <mat-icon class="large-icon" [ngClass]="{'active-icon': user_vote === 1}">keyboard_arrow_up</mat-icon>
     </button>
+
     <span class="count-text">{{ post.votes }}</span>
-    <button mat-icon-button (click)="downvote()">
-      <mat-icon class="large-icon" [ngClass]="{'active-icon': post?.user_vote?.vote == -1}">keyboard_arrow_down</mat-icon>
+
+    <button mat-icon-button (click)="downvoteClicked()">
+      <mat-icon class="large-icon" [ngClass]="{'active-icon': user_vote === -1}">keyboard_arrow_down</mat-icon>
     </button>
   </div>
 
   <div class="card-content">
     <div class="card-meta">
-      <div style="display:flex; align-items:center;">
+      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center">
         <img class="user-avatar" alt="" src="../../../assets/images/default_user.png">
-        <!-- <span class="font-bold">Tag .  &nbsp;</span> -->
-        <span>Posted by {{post.author.username}}</span>
+        <span class="font-bold" *ngIf="post?.group">
+          <a [routerLink]="[ 'group', post.group.id ]">g/{{ post.group.name }} .</a>
+        </span>
+        <span>
+          <a [routerLink]="[ 'user', post.author.username ]">Posted by u/{{ post.author.username }}</a>
+        </span>
+        <span class="timestamp">{{ post.created_at | timeSince }} ago</span>
+
+        <!-- <ng-container *ngIf="post?.tags?.length">
+          <ng-container *ngFor="let tag of post.tags">
+            <span>{{ tag.name }}</span>
+          </ng-container>
+        </ng-container> -->
       </div>
 
       <div style="display:flex; align-items:center;">
-        <span class="timestamp">{{ post.created_at | timeSince }} ago</span>
         <button mat-icon-button style="float:right;" [matMenuTriggerFor]="headerMenu">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -43,19 +55,17 @@
     <mat-card-content>
       <ng-container *ngIf="post.content.length >= 300">
         <span [innerHtml]="post.content | slice:0:300 | safeContent"></span>
-        <!-- <div class="overlay">Read more</div> -->
       </ng-container>
       <ng-container *ngIf="post.content.length < 300">
         <span [innerHtml]="post.content | safeContent"></span>
       </ng-container>
-
     </mat-card-content>
 
-    <div class="card-actions">
+    <div class="card-actions" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
       <a [routerLink]="[ '', post.uuid ]">
         <mat-icon class="card-actions-icon" style="vertical-align:middle">insert_comment</mat-icon>
         <span class="sub-text">
-          <ng-container  *ngIf="post.comments > 0; else viewTemplate">
+          <ng-container  *ngIf="post.comments > 0 || post.status === 'ARCHIVED'; else viewTemplate">
             {{ post.comments }} comments
           </ng-container>
           <ng-template #viewTemplate>
@@ -64,14 +74,19 @@
         </span>
       </a>
 
-      <button mat-icon-button (click)="checkBookmark()">
+      <button mat-icon-button class="card-actions-icon"><mat-icon>share</mat-icon></button>
+
+      <button mat-icon-button style="margin-left: auto;" (click)="checkBookmark()">
         <ng-container *ngIf="post.user_bookmark?.id; else bookmarkTemplate">
           <mat-icon class="card-actions-icon">bookmark</mat-icon>
+          <!-- <span class="sub-text">Saved</span> -->
         </ng-container>
         <ng-template #bookmarkTemplate>
           <mat-icon class="card-actions-icon">bookmark_border</mat-icon>
+          <!-- <span class="sub-text">Save</span> -->
         </ng-template>
       </button>
+
     </div>
   </div>
 </mat-card>

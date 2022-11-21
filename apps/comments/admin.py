@@ -4,12 +4,11 @@ from comments.models import PostComment
 @admin.register(PostComment)
 class PostCommentAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'user',
-        '_comment',
         'post',
         'has_children',
         'flair',
-        'updated_at',
         'created_at',
     )
     list_filter = (

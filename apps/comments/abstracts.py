@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -40,3 +41,19 @@ class AbstractComment(TimeStampedModel):
             comment = "This comment has been removed"
         return comment
     comment = property(_get_comment)
+
+
+class AbstractCommentVote(TimeStampedModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="%(class)s_votes"
+    )
+
+    vote = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(-1), MaxValueValidator(1)]
+    )
+
+    class Meta:
+        abstract = True

@@ -26,7 +26,6 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.post_uuid = this.route.snapshot.params.uuid;
-    console.log(this.post_uuid)
     this.getAuthUser();
   }
 
@@ -37,7 +36,7 @@ export class PostDetailComponent implements OnInit {
           this.userService.user.subscribe(
             (user: User) => {
               this.user = user;
-              console.log(this.user);
+              // console.log(this.user);
             });
         }
       });

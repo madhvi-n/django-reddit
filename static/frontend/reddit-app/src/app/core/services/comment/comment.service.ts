@@ -30,16 +30,24 @@ export class CommentService {
     return this.http.delete(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/');
   }
 
-  addCommentVote(uuid: string, comment_pk: number, data) {
-    return this.http.post(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/votes/', data);
+  checkUserVote(uuid: string, comment_pk: number) {
+    return this.http.get(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/check_vote/');
   }
 
-  updateCommentVote(uuid: string, comment_pk: number, vote_id: number, data) {
-    return this.http.put(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/votes/' + vote_id + '/', data);
+  upvoteComment(uuid: string, comment_pk: number) {
+    return this.http.put(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/upvote/', {});
   }
 
-  removeCommentVote(uuid: string, comment_pk: number, vote_id: number) {
-    return this.http.delete(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/votes/' + vote_id + '/');
+  downvoteComment(uuid: string, comment_pk: number) {
+    return this.http.put(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/downvote/', {});
+  }
+
+  removeVote(uuid: string, comment_pk: number) {
+    return this.http.delete(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/remove_vote/', {});
+  }
+
+  userComments(user_id:number){
+    return this.http.get(this.baseUrl + 'users/' + user_id + '/user_comments/');
   }
 
 }
