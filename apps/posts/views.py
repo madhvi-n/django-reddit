@@ -20,10 +20,7 @@ class PostViewSet(BaseReadOnlyViewSet):
     serializer_class = PostSerializer
     pagination_class = PostPagination
     lookup_field = 'uuid'
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     filterset_class = PostFilterSet
-    search_fields = ['title', 'content']
-    ordering_fields= ['created_at', 'updated_at']
 
     def get_serializer_context(self):
         context = super(PostViewSet, self).get_serializer_context()

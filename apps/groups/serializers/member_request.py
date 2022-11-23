@@ -13,3 +13,10 @@ class MemberRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemberRequest
         fields = ('id', 'group', 'user', 'is_approved')
+        read_only_fields = ('id',)
+        extra_kwargs = {
+            'group': {'write_only': True}
+        }
+    def create(self, validated_data):
+        member_request = MemberRequest.objects.create(**validated_data)
+        return member_request
