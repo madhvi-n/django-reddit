@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Post } from '@reddit/core/models/post.model';
 import { PostService } from '@reddit/core/services/post/post.service';
+import { environment } from '@reddit/env/environment';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-post',
@@ -12,7 +14,10 @@ export class PostComponent implements OnInit {
   @Input() user_id: number;
   user_vote = 0;
 
-  constructor(private postService: PostService) { }
+  constructor(
+    private postService: PostService,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.user_vote = this.post?.user_vote?.vote;
@@ -102,5 +107,34 @@ export class PostComponent implements OnInit {
 
   sharePost(uuid: string) {
 
+  }
+
+  report() {
+    if (!this.user_id) {
+      this.redirectToLogin();
+      return;
+    } else {
+      const dialogWidth = window.innerWidth <= 540 ? `90vw` : `527px`;
+      // const dialogRef = this.dialog.open(ReportDialogComponent, {
+      //   width: dialogWidth,
+      //   maxWidth: dialogWidth,
+      //   data: {
+      //     user: this.user_id,
+      //     uuid: this.post.uuid,
+      //     url: `${window.location.href}`
+      //   }
+      // });
+      // dialogRef.afterClosed().subscribe(
+      //   (response: any) => {
+      //     if (response) {
+      //       this.post.report = response;
+      //       // this.snackbarService.success('Report has been initiated');
+      //     }
+      //   });
+    }
+  }
+
+  redirectToLogin() {
+    window.location.href = `${environment.loginUrl}/sign-in&continue=${window.location.href}`;
   }
 }

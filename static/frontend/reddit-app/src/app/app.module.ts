@@ -24,18 +24,18 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SafeContentPipe } from '@reddit/core/pipes/safe-content/safe-content.pipe';
 
-import { PostComponent } from './components/post/post.component';
-import { CreatePostComponent } from './components/create-post/create-post.component';
-import { PostDetailComponent } from './components/post-detail/post-detail.component';
-import { PostLoaderComponent } from './components/post-loader/post-loader.component';
+import { PostComponent } from './post/post/post.component';
+import { CreatePostComponent } from './post/create-post/create-post.component';
+import { PostDetailComponent } from './post/post-detail/post-detail.component';
+import { PostLoaderComponent } from './post/post-loader/post-loader.component';
 
 
-import { CommentGroupComponent } from './components/comment-group/comment-group.component';
-import { CommentComponent } from './components/comment/comment.component';
-import { CommentCreateComponent } from './components/comment-create/comment-create.component';
-import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
-import { CommentFooterComponent } from './components/comment-footer/comment-footer.component';
-import { CommentListComponent } from './components/comment-list/comment-list.component';
+import { CommentGroupComponent } from './comments/comment-group/comment-group.component';
+import { CommentComponent } from './comments/comment/comment.component';
+import { CommentCreateComponent } from './comments/comment-create/comment-create.component';
+import { CommentEditComponent } from './comments/comment-edit/comment-edit.component';
+import { CommentFooterComponent } from './comments/comment-footer/comment-footer.component';
+import { CommentListComponent } from './comments/comment-list/comment-list.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 import { ProfileComponent } from './profiles/profiles/profiles.component';

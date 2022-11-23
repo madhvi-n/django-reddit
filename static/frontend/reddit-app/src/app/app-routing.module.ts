@@ -5,9 +5,12 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignOutComponent } from './auth/sign-out/sign-out.component';
 import { AuthGuard } from './core/guards/auth/auth.guard';
-import { CreatePostComponent } from './components/create-post/create-post.component';
-import { PostDetailComponent } from './components/post-detail/post-detail.component';
-import { SearchComponent } from './components/search/search.component';
+
+import { CreatePostComponent } from './post/create-post/create-post.component';
+import { PostDetailComponent } from './post/post-detail/post-detail.component';
+
+import { SearchComponent } from './search/search.component';
+
 import { ProfileComponent } from './profiles/profiles/profiles.component';
 import { GroupComponent } from './group/group/group.component';
 import { GroupRouterComponent } from './group/group-router/group-router.component';

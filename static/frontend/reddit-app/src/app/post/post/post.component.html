@@ -35,9 +35,9 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #headerMenu="matMenu">
-          <button mat-menu-item disabled>
+          <button mat-menu-item (click)="report()">
             <mat-icon>outlined_flag</mat-icon>
-            <span>Report</span>
+            <span>{{ (post?.report?.id) ? 'Redact' : 'Report' }}</span>
           </button>
           <button mat-menu-item disabled>
             <mat-icon>visibility_off</mat-icon>
