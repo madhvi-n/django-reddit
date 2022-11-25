@@ -46,7 +46,7 @@ class PostFollowerViewSet(BaseViewSet):
             )
         if post_uuid is not None:
             try:
-                data['post'] = Post.objects.get(slug=post_uuid).pk
+                data['post'] = Post.objects.get(uuid=post_uuid).pk
             except Post.DoesNotExist:
                 return Response(
                     {'error': 'Post does not exist'},
