@@ -20,24 +20,9 @@ class GroupMemberViewSet(BaseReadOnlyViewSet):
     permission_classes = [IsAuthenticated, ]
     filterset_class = GroupMemberFilterSet
 
-
-class GroupMemberSelfViewSet(BaseViewSet):
-    queryset = GroupMember.objects.all()
-    serializer_class = GroupMemberSerializer
-    permission_classes = [IsAuthenticated,]
-
     def get_queryset(self):
         queryset = self.queryset
         if self.kwargs != {}:
             if 'group_pk' in self.kwargs:
-                return self.queryset.filter(group__pk=self.kwargs['group_pk'])
+                queryset = queryset.filter(group__pk=self.kwargs['group_pk'])
         return queryset
-
-    def create(self, request, group_pk=None):
-        pass
-
-    def update(self, request, group_pk=None, pk=None):
-        pass
-
-    def destroy(self, request, group_pk=None, pk=None):
-        pass

@@ -1,12 +1,14 @@
 from rest_framework_nested import routers
-from groups.views import GroupViewSet, GroupSelfViewSet, GroupMemberViewSet, \
-MemberRequestViewSet, GroupInviteViewSet, GroupRuleViewSet
+from groups.views import (
+    GroupViewSet, GroupMemberViewSet,
+    MemberRequestViewSet, GroupInviteViewSet,
+    GroupRuleViewSet
+)
 
 
 router = routers.SimpleRouter()
 router.register(r'groups', GroupViewSet)
 router.register(r'members', GroupMemberViewSet)
-router.register(r'group/self', GroupSelfViewSet)
 
 group_router = routers.NestedSimpleRouter(
     router, r'groups', lookup='group'
