@@ -2,15 +2,15 @@
   <div class="profile-container" fxLayout="column" fxFlex="70" fxFlex.lt-lg="100">
     <div class="width-100">
       <mat-tab-group class="width-100" color="warn" dynamicHeight animationDuration="0ms" mat-align-tabs="center">
-        <mat-tab label="Overview">
+        <!-- <mat-tab label="Overview">
           <div class="content">
             <app-profile-overview></app-profile-overview>
           </div>
-        </mat-tab>
+        </mat-tab> -->
 
         <mat-tab label="Posts">
           <div class="content">
-            <app-profile-posts></app-profile-posts>
+            <app-profile-posts [user]="user"></app-profile-posts>
           </div>
         </mat-tab>
 
@@ -22,25 +22,19 @@
 
         <mat-tab label="Upvotes">
           <div class="content">
-            <app-profile-upvotes></app-profile-upvotes>
+            <app-profile-upvotes [user]="user"></app-profile-upvotes>
           </div>
         </mat-tab>
 
         <mat-tab label="Downvotes">
           <div class="content">
-            <app-profile-downvotes></app-profile-downvotes>
-          </div>
-        </mat-tab>
-
-        <mat-tab label="History">
-          <div class="content">
-            <app-profile-history></app-profile-history>
+            <app-profile-downvotes [user]="user"></app-profile-downvotes>
           </div>
         </mat-tab>
 
         <mat-tab label="Saved">
           <div class="content">
-            <app-profile-bookmarks></app-profile-bookmarks>
+            <app-profile-bookmarks [user]="user"></app-profile-bookmarks>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -61,7 +55,7 @@
       </div>
     </div>
 
-    <div class="related-section">
+    <div class="related-section" *ngIf="userGroups.length">
       <span class="heading-5 font-bold">
         Your groups
 
@@ -73,7 +67,7 @@
       </span>
     </div>
 
-    <div class="related-section">
+    <div class="related-section" *ngIf="modGroups.length">
       <span class="heading-5 font-bold">
         You're a moderator of these groups
 

@@ -4,7 +4,7 @@ import { CommentService } from '@reddit/core/services/comment/comment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '@reddit/core/models/user.model';
 import { Comment } from '@reddit/core/models/comment.model';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@reddit/app/components/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({

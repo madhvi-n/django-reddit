@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAuthUser();
-    this.getUserGroups();
-    this.getModeratorGroups();
+    // this.getUserGroups();
+    // this.getModeratorGroups();
     this.getUserComments();
   }
 
@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserComments(){
-    this.commentService.userComments(this.user.id).subscribe(
+    this.commentService.userComments(this.user.username).subscribe(
       (response: any) => {
         this.userComments = response;
       })

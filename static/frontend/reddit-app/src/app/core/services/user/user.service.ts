@@ -71,4 +71,29 @@ export class UserService {
   addInterests(username: string) {
     return;
   }
+
+  userInvitations(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/invitations/');
+  }
+
+  userRequestedGroups(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/requested_groups/');
+  }
+
+  userInvites(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/user_invites/');
+  }
+
+  userUpvotes(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/user_upvotes/');
+  }
+
+  userDownvotes(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/user_downvotes/');
+  }
+
+  getBookmarks(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/bookmarks/');
+  }
+
 }

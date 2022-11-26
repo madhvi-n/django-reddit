@@ -14,7 +14,15 @@ export class GroupService {
   ) {}
 
   createGroup(postData){
-    return this.http.post(this.baseUrl + 'group/self/', postData);
+    return this.http.post(this.baseUrl + 'groups/', postData);
+  }
+
+  getGroups() {
+    return this.http.get(this.baseUrl + 'groups/');
+  }
+
+  getGroupPosts(group_id: number){
+    return this.http.get(this.baseUrl + 'groups/' + group_id + '/posts/');
   }
 
   getGroupDetail(group_id: number) {
@@ -33,4 +41,18 @@ export class GroupService {
       this.baseUrl + 'members/?member_type=' + member_type + '&user=' + user
     );
   }
+
+  joinGroup(group_id: number, data) {
+    return this.http.post(this.baseUrl + 'groups/' + group_id + '/member_requests/', data)
+  }
+
+  inviteMember(group_id: number, data) {
+    return this.http.post(this.baseUrl + 'groups/' + group_id + '/invites/', data)
+  }
+
+  addGroupRule(group_id: number, data) {
+    return this.http.post(this.baseUrl + 'groups/' + group_id + '/rules/', data)
+  }
+
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, NgZone, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -9,7 +9,9 @@ import { HttpEventType } from '@angular/common/http';
 import FroalaEditor from 'froala-editor';
 import { PostService } from '@reddit/core/services/post/post.service';
 import { UserService } from '@reddit/core/services/user/user.service';
+import { GroupService } from '@reddit/core/services/group/group.service';
 import { User } from '@reddit/core/models/user.model';
+import { Group } from '@reddit/core/models/group.model';
 
 
 @Component({
@@ -20,13 +22,13 @@ import { User } from '@reddit/core/models/user.model';
 export class CreatePostComponent implements OnInit {
   public editor;
 
-  blogForm: FormGroup;
+  postForm: FormGroup;
   content: any;
   user: User;
   isLoading: boolean = true;
-  userGroups: [] = [];
   selected: null;
   formData: any;
+  @Input() group: Group;
 
   constructor(
     private postService: PostService,
@@ -37,11 +39,10 @@ export class CreatePostComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.getAuthUser();
-    this.isLoading = false;
   }
 
   initializeForm() {
-    this.blogForm = new FormGroup({
+    this.postForm = new FormGroup({
       title: new FormControl('', {
         validators: [Validators.required]
       }),
@@ -50,12 +51,13 @@ export class CreatePostComponent implements OnInit {
       })
     });
 
-    this.blogForm.valueChanges
+    this.postForm.valueChanges
       .pipe(debounceTime(3000), distinctUntilChanged())
       .subscribe(
         (response) => {
           console.log(response);
         });
+    this.isLoading = false;
   }
 
   public options: Object = {
@@ -145,24 +147,19 @@ export class CreatePostComponent implements OnInit {
 
   submit() {
     const data = {
-      title: this.blogForm.controls.title.value,
-      content: this.blogForm.controls.content.value,
-      author: this.user.id
+      title: this.postForm.controls.title.value,
+      content: this.postForm.controls.content.value,
+      author: this.user.id,
+      group: this.group ? this.group.id : null
     }
 
     this.postService.createPost(data).subscribe(
       (response: any) => {
         this.router.navigate(['', response.uuid])
-      }
-    )
+      },
+      (err: any) => {
+        console.log(err)
+      });
   }
-
-  // onFileSelected(files: any) {
-  //   const file:File = files[0];
-  //   if(file) {
-  //     this.formData = new FormData();
-  //     this.formData.append("image", file);
-  //   }
-  // }
 
 }

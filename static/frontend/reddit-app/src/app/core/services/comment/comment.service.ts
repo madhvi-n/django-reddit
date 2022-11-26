@@ -46,8 +46,8 @@ export class CommentService {
     return this.http.delete(this.baseUrl + 'posts/' + uuid + '/comments/' + comment_pk + '/remove_vote/', {});
   }
 
-  userComments(user_id:number){
-    return this.http.get(this.baseUrl + 'users/' + user_id + '/user_comments/');
+  userComments(username: string){
+    return this.http.get(this.baseUrl + 'users/' + username + '/user_comments/');
   }
 
 }

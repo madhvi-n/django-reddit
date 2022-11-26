@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@reddit/env/environment';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { User } from '../../models/user.model';
+import { User } from '@reddit/core/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class StorageHandlerService {
   }
 
   getUser() {
-    return this.http.get(this.baseUrl + 'profiles/auth/');
+    return this.http.get(this.baseUrl + 'users/auth/');
   }
 
   getCurrentUserSubject() {

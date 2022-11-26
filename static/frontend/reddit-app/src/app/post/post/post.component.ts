@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() user_id: number;
+  @Input() showFooter: boolean = true;
+  
   user_vote = 0;
 
   constructor(

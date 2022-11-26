@@ -51,18 +51,23 @@ const routes: Routes = [
     component: GroupRouterComponent,
     children: [
       {
-        path: 'submit-post',
-        canActivate: [AuthGuard],
-        component: GroupPostComponent
-      },
-      {
         path: 'create-new',
         canActivate: [AuthGuard],
         component: CreateGroupComponent
       },
       {
         path: ':id',
-        component: GroupComponent
+        children: [
+          {
+            path: '',
+            component: GroupComponent,
+          },
+          {
+            path: 'submit-post',
+            canActivate: [AuthGuard],
+            component: GroupPostComponent
+          }
+        ]
       },
       {
         path: '**',

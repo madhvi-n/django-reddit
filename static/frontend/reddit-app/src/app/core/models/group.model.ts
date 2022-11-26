@@ -9,6 +9,7 @@ export class Rule {
 }
 
 export class Group {
+  id: number;
   name: string;
   description: string;
   group_type: string;

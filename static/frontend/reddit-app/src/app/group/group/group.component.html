@@ -10,20 +10,20 @@
 
   <div class="row-container width-100" fxLayout="row" fxLayoutGap="16px">
     <div class="child-container-1 group-card shadow-sm" fxLayout="column" fxFlex="70" fxFlex.lt-lg="100">
-      <app-group-feed></app-group-feed>
+      <app-group-feed [group]="group"></app-group-feed>
     </div>
 
     <div class="child-container-2" fxLayout="column" fxFlex="30" fxHide.lt-lg>
       <div class="group-card shadow-sm about-section">
-        <div fxLayout="column" class="width-100" fxLayoutGap="8px">
+        <div fxLayout="column" class="width-100" fxLayoutGap="8px" *ngIf="group">
           <span class="heading-5 text-uppercase">
             About Community
           </span>
           <br>
-          <span class="heading-4 font-bold">g/{{group.name }}</span>
+          <span class="heading-4 font-bold">g/{{group?.name }}</span>
 
           <span *ngIf="group.description" class="color-tertiary desc-text" [innerHtml]="group.description | safeContent"></span>
-          <span *ngIf="!group.description" class="color-tertiary desc-text">g/{{ group.name}} hasn't added any description yet.</span>
+          <span *ngIf="!group.description" class="color-tertiary desc-text">g/{{ group?.name}} hasn't added any description yet.</span>
 
           <div class="margin-y-3">
             <mat-divider></mat-divider>
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="group-card shadow-sm rules-section" fxLayout="row" *ngIf="group.rules.length">
+      <div class="group-card shadow-sm rules-section" fxLayout="row" *ngIf="group && group.rules?.length">
         <div fxLayout="column">
           <span class="heading-5 text-uppercase">
             Community Rules

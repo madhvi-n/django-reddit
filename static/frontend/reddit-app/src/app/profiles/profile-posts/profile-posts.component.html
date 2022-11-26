@@ -1,1 +1,4 @@
-<p>profile-posts works!</p>
+<ng-container *ngFor="let post of posts">
+  <app-post [post]="post" [showFooter]="false" [user]="user.id">
+  </app-post>
+</ng-container>

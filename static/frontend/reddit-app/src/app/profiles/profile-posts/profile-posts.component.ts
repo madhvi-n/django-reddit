@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '@reddit/core/services/user/user.service';
+import { PostService } from '@reddit/core/services/post/post.service';
+import { User } from '@reddit/core/models/user.model';
+import { Post } from '@reddit/core/models/post.model';
 
 @Component({
   selector: 'app-profile-posts',
@@ -6,10 +11,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-posts.component.scss']
 })
 export class ProfilePostsComponent implements OnInit {
+  @Input() user: User;
+  posts: Post[] = [];
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private postService: PostService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.getPosts();
+  }
+
+  getPosts(){
+    this.postService.filterPosts('', '', '', this.user.id).subscribe(
+      (response: any) => {
+        this.posts = response.results;
+      })
   }
 
 }

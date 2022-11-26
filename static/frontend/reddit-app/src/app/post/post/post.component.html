@@ -53,15 +53,15 @@
       </a>
     </mat-card-title>
     <mat-card-content>
-      <ng-container *ngIf="post.content.length >= 300">
+      <ng-container *ngIf="post.content.length > 300">
         <span [innerHtml]="post.content | slice:0:300 | safeContent"></span>
       </ng-container>
-      <ng-container *ngIf="post.content.length < 300">
+      <ng-container *ngIf="post.content.length <= 300">
         <span [innerHtml]="post.content | safeContent"></span>
       </ng-container>
     </mat-card-content>
 
-    <div class="card-actions" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
+    <div class="card-actions" *ngIf="showFooter" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
       <a [routerLink]="[ '', post.uuid ]">
         <mat-icon class="card-actions-icon" style="vertical-align:middle">insert_comment</mat-icon>
         <span class="sub-text">
