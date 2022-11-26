@@ -76,11 +76,11 @@ class GroupViewSet(BaseViewSet):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     @action(detail=True)
-    def get_posts(self, request, pk=None):
+    def posts(self, request, pk=None):
         group = self.get_object()
         queryset = Post.objects.filter(group=group)
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(queryset, many=True)
+        serializer = serializer_class(queryset, many=True, context={'user': request.user })
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True)

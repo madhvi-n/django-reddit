@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from comments.models import PostComment
+from comments.models import PostComment, PostCommentVote
 from profiles.serializers import UserSerializer
 
 
@@ -74,3 +74,11 @@ class PostCommentCreateSerializer(serializers.ModelSerializer):
 
     def get_child_count(self, obj):
         return 0
+
+
+class PostCommentVoteSerializer(serializers.ModelSerializer):
+    post_comment = PostCommentLightSerializer()
+
+    class Meta:
+        model = PostCommentVote
+        fields = ('id', 'vote', 'created_at', 'post_comment')

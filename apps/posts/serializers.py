@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from posts.models import Post, PostVote
-from profiles.serializers import UserSerializer
+from profiles.serializers import UserSerializer, UserReadOnlySerializer
 from tags.serializers import TagSerializer
 from comments.models import PostComment
 from bookmarks.models import PostBookmark
@@ -56,14 +56,28 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostReadOnlySerializer(ModelReadOnlySerializer):
+    author = UserReadOnlySerializer()
+    group = GroupReadOnlyLightSerializer(required=False)
+    votes = serializers.ReadOnlyField(source='_get_score')
+
     class Meta:
         model = Post
-        fields = '__all__'
+        fields  = (
+            'uuid', 'title', 'content', 'author', 'votes',
+            'created_at', 'group', 'status'
+        )
+
+
+class PostVoteHeavySerializer(serializers.ModelSerializer):
+    post = PostReadOnlySerializer()
+
+    class Meta:
+        model = PostVote
+        fields = ('id', 'vote', 'post', 'created_at')
 
 
 class PostEditSerializer(serializers.ModelSerializer):
     tags = TagSerializer(required=False, many=True)
-    group = GroupSerializer(required=False)
 
     class Meta:
         model = Post
@@ -72,3 +86,6 @@ class PostEditSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at', 'group', 'status'
         )
         read_only_fields = ('uuid',)
+        extra_kwargs = {
+            'group': {'write_only': True},
+        }

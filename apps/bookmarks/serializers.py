@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
 from bookmarks.models import PostBookmark
+from core.serializers import ModelReadOnlySerializer
 
 
 class PostBookmarkSerializer(serializers.ModelSerializer):
@@ -22,3 +22,17 @@ class PostBookmarkLightSerializer(serializers.ModelSerializer):
         model = PostBookmark
         fields = ('id', 'user')
         read_only_fields = ('id',)
+
+
+class PostBookmarkReadOnlySerializer(ModelReadOnlySerializer):
+    post = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PostBookmark
+        fields = ('id', 'post', 'user')
+
+    def get_post(self, obj):
+        if hasattr(obj, 'post'):
+            from posts.serializers import PostReadOnlySerializer
+            return PostReadOnlySerializer(obj.post).data
+        return None
