@@ -5,7 +5,7 @@ A Reddit clone using Django and Angular
 
 - User authentication.
 - User can create stand alone posts and group posts.
-- User can follow people, groups.
+- User can follow people, posts.
 - Thread discussions on posts
 - Upvote and downvotes on posts and comments
 - Report posts
