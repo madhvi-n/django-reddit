@@ -1,18 +1,106 @@
 # Django Reddit
 A Reddit clone using Django and Angular
 
-# Dependencies
-> Python 3.8+
+### Features
 
-> Angular 10.2.4
+- User authentication.
+- User can create stand alone posts and group posts.
+- User can follow people, groups.
+- Thread discussions on posts
+- Upvote and downvotes on posts and comments
+- Report posts
+- Bookmark posts
+- User can join groups, create groups which can be private, restricted or public.
+- Invites and member joining requests for groups
+
+
+
+# Requirements
+- Backend
+    - Python 3.8+
+    - virtualenv
+    - WSL
+
+
+- Frontend
+    - Angular 10.2.4 (or 10.2.5)
+    - Node 10.13.x +
+
+
 
 # Installation
-> pip install -r requirements.txt
 
-> npm install
+Clone the repository and enter the root directory
+```
+git clone
+cd reddit_clone
+```
 
 
-# Commands
-- Run the Django server using `python manage.py runserver`
+Create a virtual environment and activate it
+```
+virtualenv venv
+source venv/bin/activate
+```
 
-- Run the Angular development server using command `ng serve` and production using `ng build`
+Making sure your virtual environment is activated, install the dependencies using `pip`
+```
+pip install -r requirements.txt
+```
+
+After installing dependencies, migrate Django apps.(You will find the list of apps when you run the command `python manage.py runserver`)
+```
+python manage.py migrate
+```
+
+Finally start your Django server
+```
+python manage.py runserver
+```
+
+Visit `http://127.0.0.1:8000/` or `localhost:8000` for running web server
+Alternatively you can access the admin interface on `http://127.0.0.1:8000/admin/` or `localhost:8000/admin`
+
+Access python shell
+```
+python manage.py shell
+```
+
+
+### Generating data using shell
+```
+from django.contrib.auth.models import User
+from posts.models import Post
+from groups.models import Group
+
+user = User.objects.get(id=1)
+post = Post.objects.create(title="Something here", content="A very long text as the content here", author=user)
+
+group = Group.objects.create(name="Django", description="Official Django community on Django Reddit")
+
+```
+
+
+### Frontend
+
+Start another shell tab and access the root of frontend directory `reddit-app` (without bash or activated virtual environment). <br>
+Install the angular dependencies
+```
+npm install
+```
+
+<br>
+
+Visit `http://127.0.0.1:4200` or `localhost:4200` to access frontend.
+
+
+#### Note: Django/Backend runs on WSL and Angular/Frontend runs directly on Windows
+
+
+## References
+
+- [How to install Python3.8 on Ubuntu 18.04](https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/)
+- [Installing NodeJs on Windows](https://www.guru99.com/download-install-node-js.html)
+- [Official Angular 10 installation guide](https://v10.angular.io/guide/setup-local)
+- [Installing a specific version of ng cli or packages](https://stackoverflow.com/questions/44759621/install-specific-version-of-ng-cli)
+- [Compatibility list for Angular, Angular Cli and Node Js](https://stackoverflow.com/questions/60248452/is-there-a-compatibility-list-for-angular-angular-cli-and-node-js)
