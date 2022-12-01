@@ -125,11 +125,6 @@ AUTHENTICATION_BACKENDS = (
     'guardian.backends.ObjectPermissionBackend',
 )
 
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-}
 
 HOME_EMAIL = 'admin@gmail.com'
 DEFAULT_FROM_GMAIL = 'admin@gmail.com'
