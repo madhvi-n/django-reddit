@@ -32,8 +32,8 @@ A Reddit clone using Django and Angular
 
 Clone the repository and enter the root directory
 ```
-git clone
-cd reddit_clone
+git clone https://github.com/madhvi-n/django-reddit.git
+cd django-reddit
 ```
 
 

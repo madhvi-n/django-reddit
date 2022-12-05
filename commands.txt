@@ -1,0 +1,11 @@
+USING docker
+docker build --tag reddit_clone:latest .
+docker image ls
+docker run --publish 8000:8000 reddit_clone
+
+========================================================
+
+USING docker compose
+docker compose up
+docker compose exec web python manage.py migrate
+docker compose exec web <django_command_to_be_run>
