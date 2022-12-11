@@ -192,6 +192,6 @@ class PostSelfViewSet(BaseViewSet):
 
         if post.author != user:
             return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
-        post.status = Post.STATUS.DRAFT
+        post.status = Post.STATUS.DRAFT.value
         post.save()
         return Response({'success': True}, status=status.HTTP_200_OK)

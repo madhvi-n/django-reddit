@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from posts.models import Post, PostVote
-from profiles.serializers import UserSerializer, UserReadOnlySerializer
+from profiles.serializers import UserSerializer
 from tags.serializers import TagSerializer
 from comments.models import PostComment
 from bookmarks.models import PostBookmark
@@ -56,7 +56,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostReadOnlySerializer(ModelReadOnlySerializer):
-    author = UserReadOnlySerializer()
+    author = UserSerializer()
     group = GroupReadOnlyLightSerializer(required=False)
     votes = serializers.ReadOnlyField(source='_get_score')
 
