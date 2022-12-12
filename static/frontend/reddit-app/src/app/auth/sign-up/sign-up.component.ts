@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, OnInit, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../core/services/user/user.service';
+import { UserService } from '@reddit/core/services/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -16,7 +18,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -52,12 +55,12 @@ export class SignUpComponent implements OnInit {
       (result) => {
         this.isLoading = false;
         this.registerForm.reset();
+        this.snackbar.open('Registered successfully. Proceed to login');
         this.router.navigate(['sign-in']);
       },
       (err) => {
         this.isLoading = false;
         // console.log(err.error);
-        this.errors = err.error.email[0];
       }
     );
   }
