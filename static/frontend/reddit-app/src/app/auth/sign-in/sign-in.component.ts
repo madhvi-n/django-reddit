@@ -37,7 +37,6 @@ export class SignInComponent implements OnInit {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
-    console.log(loginData);
     this.isLoading = true;
     this.userService.login(loginData).subscribe(
       (result) => {
@@ -52,15 +51,6 @@ export class SignInComponent implements OnInit {
       (err) => {
         this.isLoading = false;
         // console.log(err.error);
-        // this.errors = err.error.non_field_errors;
-        // if (this.errors.includes('E-mail is not verified.')) {
-        //   this.authService.resendVerificationEmail(this.loginForm.value.email).subscribe(
-        //     () => {
-        //       this.snackbarService.error('Verification email sent');
-        //     }
-        //   );
-        // }
-        // this.snackbarService.error(this.errors[0]);
       }
     );
   }
