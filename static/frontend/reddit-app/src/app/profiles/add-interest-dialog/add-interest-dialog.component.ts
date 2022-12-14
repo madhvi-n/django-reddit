@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-interest-dialog.component.scss']
 })
 export class AddInterestDialogComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit(): void {

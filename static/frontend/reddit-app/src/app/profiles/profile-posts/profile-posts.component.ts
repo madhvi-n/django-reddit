@@ -12,6 +12,9 @@ import { Post } from '@reddit/core/models/post.model';
 })
 export class ProfilePostsComponent implements OnInit {
   @Input() user: User;
+  @Input() self: boolean;
+  @Input() currentUser: string;
+
   posts: Post[] = [];
 
   constructor(
@@ -26,7 +29,7 @@ export class ProfilePostsComponent implements OnInit {
   }
 
   getPosts(){
-    this.postService.filterPosts('', '', '', this.user.id).subscribe(
+    this.postService.filterPosts('', '', '', this.currentUser).subscribe(
       (response: any) => {
         this.posts = response.results;
       })

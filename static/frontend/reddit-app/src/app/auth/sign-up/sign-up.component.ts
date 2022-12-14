@@ -60,7 +60,7 @@ export class SignUpComponent implements OnInit {
       },
       (err) => {
         this.isLoading = false;
-        // console.log(err.error);
+        console.log(err.error);
       }
     );
   }

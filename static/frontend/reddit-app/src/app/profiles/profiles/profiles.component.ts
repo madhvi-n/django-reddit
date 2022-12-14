@@ -21,6 +21,9 @@ export class ProfileComponent implements OnInit {
   userGroups: Group[] = [];
   modGroups: Group[] = [];
   userComments: UserComment[] = [];
+  currentUser: string;
+  self: boolean = false;
+  profile: User;
 
   constructor(
     private userService: UserService,
@@ -31,8 +34,11 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.route.snapshot.params.username;
     this.getAuthUser();
-    // this.getUserGroups();
+    if(this.currentUser) {
+      this.getUserByUsername();
+    }
     // this.getModeratorGroups();
     this.getUserComments();
   }
@@ -45,20 +51,31 @@ export class ProfileComponent implements OnInit {
             (response: User) => {
               this.user = response;
               console.log(this.user);
+              if(this.user && this.user.username == this.currentUser) {
+                this.self = true;
+              }
           })
         }
       })
   }
 
+  getUserByUsername(){
+    this.userService.getUserByUsername(this.currentUser).subscribe(
+      (response: User) => {
+        this.profile = response;
+        this.getUserGroups();
+      })
+  }
+
   getUserGroups(){
-    this.groupService.getUserGroups('', this.user.id, 'ADMIN').subscribe(
+    this.groupService.getUserGroups('', this.profile.id, '').subscribe(
       (response: any) => {
         this.userGroups = response;
       })
   }
 
   getUserComments(){
-    this.commentService.userComments(this.user.username).subscribe(
+    this.commentService.userComments(this.currentUser).subscribe(
       (response: any) => {
         this.userComments = response;
       })

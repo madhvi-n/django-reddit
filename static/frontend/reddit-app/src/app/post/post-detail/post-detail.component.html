@@ -1,8 +1,7 @@
 <ng-container *ngIf="isLoading; else showContent">
-  <!-- <mat-card class="post-card" fxLayout="row-reverse" fxLayoutAlign="center center" fxLayoutGap="10px" style="height: 400px">
+  <mat-card class="post-card" fxLayout="row-reverse" fxLayoutAlign="center center" fxLayoutGap="10px" style="height: 400px">
     <mat-spinner color="warn" [diameter]="30"></mat-spinner>
-  </mat-card> -->
-  <app-post-loader [detail]="true"></app-post-loader>
+  </mat-card>
 </ng-container>
 <ng-template #showContent>
     <mat-card class="post-card">

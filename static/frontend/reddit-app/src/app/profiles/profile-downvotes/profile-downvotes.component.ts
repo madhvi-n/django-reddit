@@ -15,6 +15,9 @@ import { UserComment } from '@reddit/core/models/comment.model';
 export class ProfileDownvotesComponent implements OnInit {
   isLoading: boolean = false;
   @Input() user: User;
+  @Input() self: boolean;
+  @Input() currentUser: string;
+
   downvotes = [];
 
   constructor(
@@ -30,11 +33,10 @@ export class ProfileDownvotesComponent implements OnInit {
   }
 
   getUserDownvotes() {
-    this.userService.userDownvotes(this.user.username).subscribe(
+    this.userService.userDownvotes(this.currentUser).subscribe(
       (response: any) => {
         const data = [...response.posts, ...response.comments];
         this.downvotes = data.sort((a, b) => b.created_at - a.created_at);
-        console.log(this.downvotes);
       });
   }
 }

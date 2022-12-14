@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="upvotes.length; else elseTemplate">
   <ng-container *ngFor="let item of upvotes; let index=index;">
     <ng-container *ngIf="item.post; else commentTemplate">
       <app-post [post]="item.post" [showFooter]="false"></app-post>
@@ -12,3 +12,7 @@
     </ng-template>
   </ng-container>
 </ng-container>
+
+<ng-template #elseTemplate>
+  <h3 class="font-bold color-tertiary" align="center">No content to show</h3>
+</ng-template>

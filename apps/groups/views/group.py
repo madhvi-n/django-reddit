@@ -25,6 +25,7 @@ class GroupPagination(PageNumberPagination):
 class GroupViewSet(BaseViewSet):
     queryset = Group.objects.all().order_by('created_at')
     serializer_class = GroupSerializer
+    pagination_class = GroupPagination
     filterset_class = GroupFilterSet
     serializer_action_classes = {
         'create' : GroupCreateSerializer,
@@ -38,11 +39,6 @@ class GroupViewSet(BaseViewSet):
         'add_topic': [HasGroupEditPermissions],
         'remove_topic': [HasGroupEditPermissions]
     }
-
-    def get_queryset(self):
-        user = self.request.user
-        queryset = self.queryset.filter(members__user=user)
-        return queryset
 
     def create(self, request):
         data = request.data

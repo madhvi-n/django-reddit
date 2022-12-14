@@ -19,7 +19,7 @@
           <a [routerLink]="[ 'group', post.group.id ]">g/{{ post.group.name }} .</a>
         </span>
         <span>
-          <a [routerLink]="[ 'user', post.author.username ]">Posted by u/{{ post.author.username }}</a>
+          <a [routerLink]="[ 'user', post.author.username]">Posted by u/{{ post.author.username }}</a>
         </span>
         <span class="timestamp">{{ post.created_at | timeSince }} ago</span>
 

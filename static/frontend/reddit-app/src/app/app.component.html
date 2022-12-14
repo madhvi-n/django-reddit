@@ -5,14 +5,14 @@
       <a mat-flat-button [routerLink]="['']" class="font-bold color-primary navbar-brand" style="text-decoration:none">
         Django Reddit
       </a>
-      <div></div>
-      <div></div>
-      <a mat-flat-button [routerLink]="['create']" class="color-tertiary">
-        Create post
-      </a>
-      <a mat-flat-button (click)="createGroup()" class="color-tertiary">
-        Create group
-      </a>
+      <ng-container *ngIf="user">
+        <a mat-flat-button [routerLink]="['create']" class="color-tertiary">
+          Create post
+        </a>
+        <a mat-flat-button (click)="createGroup()" class="color-tertiary">
+          Create group
+        </a>
+      </ng-container>
     </div>
 
 

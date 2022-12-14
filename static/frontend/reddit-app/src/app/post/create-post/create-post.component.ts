@@ -29,7 +29,8 @@ export class CreatePostComponent implements OnInit {
   selected: null;
   formData: any;
   @Input() group: Group;
-
+  edit: boolean = false;
+  
   constructor(
     private postService: PostService,
     private userService: UserService,

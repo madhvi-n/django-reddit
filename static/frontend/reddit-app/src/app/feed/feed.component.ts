@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../core/services/user/user.service';
 import { PostService } from '../core/services/post/post.service';
+import { GroupService } from '../core/services/group/group.service';
 import { User } from '../core/models/user.model';
 import { Post } from '../core/models/post.model';
 
@@ -17,15 +18,18 @@ export class FeedComponent implements OnInit {
   page: number = 1;
   showLoader: boolean = false;
   next: string;
+  groups = [];
 
   constructor(
     private userService: UserService,
-    private postService: PostService
+    private postService: PostService,
+    private groupService: GroupService
   ) { }
 
   ngOnInit(): void {
     this.getAuthUser();
     this.getPosts();
+    this.topGroups();
   }
 
   getAuthUser() {
@@ -44,7 +48,7 @@ export class FeedComponent implements OnInit {
     if (!this.showLoader) {
       this.isLoading = true;
     }
-    console.log(this.page)
+    // console.log(this.page);
     this.postService.getPosts(this.page).subscribe(
       (response: any) => {
         this.posts = [...this.posts, ...response.results];
@@ -62,31 +66,12 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  // vote(post) {
-  //   if(post.author.id === this.user.id) {
-  //     return;
-  //   }
-  //
-  //   const data = {
-  //     user: this.user.id,
-  //     post: post
-  //   }
-  //
-  //   this.postService.addVote(post, data).subscribe(
-  //     (response) => {
-  //       console.log(response);
-  //     },
-  //     (err) => {
-  //       console.log(err);
-  //     })
-  // }
-  //
-  // removeVote(uuid, vote_id) {
-  //   this.postService.deleteVote(uuid, vote_id).subscribe(
-  //     (response: any) => {
-  //       console.log('vote removed')
-  //     });
-  // }
+  topGroups() {
+    this.groupService.getGroups().subscribe(
+      (response: any) => {
+        this.groups = response.results.slice(0, 5);
+      })
+  }
 
   loadMorePosts(): void {
     this.showLoader = true;

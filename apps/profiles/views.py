@@ -7,9 +7,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, filters
-from comments.serializers import PostCommentLightSerializer
-# from profiles.models import UserMetaInfo
+from comments.serializers import PostCommentLightSerializer, PostCommentVoteSerializer
 from groups.serializers import GroupInviteReadOnlySerializer, GroupSerializer, MemberRequestSerializer
+from posts.serializers import PostVoteHeavySerializer
+from bookmarks.serializers import PostBookmarkReadOnlySerializer
+from bookmarks.models import PostBookmark
 
 
 class ProfileViewSet(BaseViewSet):
@@ -20,12 +22,15 @@ class ProfileViewSet(BaseViewSet):
         'user_comments': PostCommentLightSerializer,
         'requested_groups': MemberRequestSerializer,
         'invitations': GroupInviteReadOnlySerializer,
-        'invites': GroupInviteReadOnlySerializer
+        'invites': GroupInviteReadOnlySerializer,
+        'user_upvotes': PostVoteHeavySerializer,
+        'bookmarks': PostBookmarkReadOnlySerializer
     }
     permission_action_classes = {
         'requested_groups': [IsAuthenticated,],
         'invitations': [IsAuthenticated,],
         'invites': [IsAuthenticated,],
+        'bookmarks': [IsAuthenticated],
     }
     search_fields = ['first_name', 'last_name', 'username']
     ordering = ['first_name','last_name']
@@ -121,7 +126,7 @@ class ProfileViewSet(BaseViewSet):
     @action(detail=True)
     def user_comments(self, request, username=None):
         user = self.get_object()
-        if request.user.is_authenticated and hasattr(user, 'postcomment_comments'):
+        if hasattr(user, 'postcomment_comments'):
             queryset = user.postcomment_comments.all().order_by('-created_at')
             serializer_class = self.get_serializer_class()
             serializer = serializer_class(queryset, many=True)
@@ -141,7 +146,6 @@ class ProfileViewSet(BaseViewSet):
     @action(detail=True)
     def invitations(self, request, username=None):
         """ Group invites sent by user """
-
         user = self.get_object()
         if user.is_authenticated and hasattr(user, 'invitations'):
             queryset = user.invitations.all().order_by('-created_at')
@@ -153,10 +157,43 @@ class ProfileViewSet(BaseViewSet):
     @action(detail=True)
     def user_invites(self, request, username=None):
         """ Group invites sent to user """
-
         user = self.get_object()
         if user.is_authenticated and hasattr(user, 'invites'):
             queryset = user.invites.all().order_by('-created_at')
+            serializer_class = self.get_serializer_class()
+            serializer = serializer_class(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+    def _common_vote_method(self, request, user_vote):
+        user = self.get_object()
+        post_queryset = user.post_votes.all().order_by('-created_at')\
+            .filter(vote=user_vote)
+        comment_queryset = user.postcommentvote_votes.all()\
+            .order_by('-created_at').filter(vote=user_vote)
+        post_serializer = PostVoteHeavySerializer(post_queryset, many=True)
+        comment_serializer = PostCommentVoteSerializer(comment_queryset, many=True)
+        return Response({
+            "posts": post_serializer.data,
+            "comments": comment_serializer.data
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=True)
+    def user_upvotes(self, request, username=None):
+        """ Returns user upvoted posts and comments """
+        return self._common_vote_method(request, 1)
+
+    @action(detail=True)
+    def user_downvotes(self, request, username=None):
+        """ Returns user downvoted posts and comments """
+        return self._common_vote_method(request, -1)
+
+    @action(detail=True)
+    def bookmarks(self, request, username=None):
+        """ Returns user bookmarks """
+        user = self.get_object()
+        if user.is_authenticated:
+            queryset = PostBookmark.objects.filter(user__username=user.username).order_by('-created_at')
             serializer_class = self.get_serializer_class()
             serializer = serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)

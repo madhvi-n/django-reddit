@@ -13,7 +13,7 @@ export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() user_id: number;
   @Input() showFooter: boolean = true;
-  
+
   user_vote = 0;
 
   constructor(
@@ -26,6 +26,7 @@ export class PostComponent implements OnInit {
   }
 
   upvoteClicked(){
+    if(!this.user_id) return
     if (this.user_vote == 1) {
       this.removeVote();
     } else {
@@ -34,6 +35,7 @@ export class PostComponent implements OnInit {
   }
 
   downvoteClicked(){
+    if(!this.user_id) return
     if (this.user_vote == -1) {
       this.removeVote();
     } else {
@@ -130,7 +132,6 @@ export class PostComponent implements OnInit {
       //   (response: any) => {
       //     if (response) {
       //       this.post.report = response;
-      //       // this.snackbarService.success('Report has been initiated');
       //     }
       //   });
     }

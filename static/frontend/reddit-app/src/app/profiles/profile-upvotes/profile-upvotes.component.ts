@@ -15,6 +15,9 @@ import { UserComment } from '@reddit/core/models/comment.model';
 export class ProfileUpvotesComponent implements OnInit {
   isLoading: boolean = false;
   @Input() user: User;
+  @Input() self: boolean;
+  @Input() currentUser: string;
+
   upvotes = [];
 
 
@@ -31,7 +34,7 @@ export class ProfileUpvotesComponent implements OnInit {
   }
 
   getUserUpvotes() {
-    this.userService.userUpvotes(this.user.username).subscribe(
+    this.userService.userUpvotes(this.currentUser).subscribe(
       (response: any) => {
         const data = [...response.posts, ...response.comments];
         this.upvotes = data.sort((a, b) => b.created_at - a.created_at);

@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ProfileCommentsComponent implements OnInit {
   @Input() comments: [] = [];
   @Input() user;
+  @Input() self: boolean;
+  @Input() currentUser: string;
   
   constructor() { }
 

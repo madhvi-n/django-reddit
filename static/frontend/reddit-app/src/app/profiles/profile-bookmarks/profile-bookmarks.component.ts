@@ -13,6 +13,8 @@ export class ProfileBookmarksComponent implements OnInit {
   isLoading: boolean = false;
   @Input() user: User;
   bookmarks = [];
+  @Input() self: boolean;
+  @Input() currentUser: string;
 
   constructor(
     private userService: UserService,
@@ -26,7 +28,7 @@ export class ProfileBookmarksComponent implements OnInit {
   }
 
   getUserBookmarks(){
-    this.userService.getBookmarks(this.user.username).subscribe(
+    this.userService.getBookmarks(this.currentUser).subscribe(
       (response: any) => {
         this.bookmarks = response;
       })

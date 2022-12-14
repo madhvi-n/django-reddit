@@ -4,6 +4,7 @@ import { User } from '@reddit/core/models/user.model';
 import { CommentService } from '@reddit/core/services/comment/comment.service';
 import { UserService } from '@reddit/core/services/user/user.service';
 import { environment } from '@reddit/env/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comment-group',
@@ -35,9 +36,10 @@ export class CommentGroupComponent implements OnInit {
 
   constructor(
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
-    this.loginUrl = `${environment.loginUrl}/sign-in/`;
+    this.loginUrl = `${environment.loginUrl}/`;
   }
 
   ngOnInit(): void {
@@ -104,7 +106,8 @@ export class CommentGroupComponent implements OnInit {
   }
 
   goToLogin() {
-    window.location.href = `${this.loginUrl}/sign-in&continue=${window.location.href}`;
+    // window.location.href = `${this.loginUrl}&continue=${window.location.href}`;
+    this.router.navigate(['sign-in']);
   }
 
   userMentioned(data: any) {

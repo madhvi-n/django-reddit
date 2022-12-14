@@ -2,39 +2,33 @@
   <div class="profile-container" fxLayout="column" fxFlex="70" fxFlex.lt-lg="100">
     <div class="width-100">
       <mat-tab-group class="width-100" color="warn" dynamicHeight animationDuration="0ms" mat-align-tabs="center">
-        <!-- <mat-tab label="Overview">
-          <div class="content">
-            <app-profile-overview></app-profile-overview>
-          </div>
-        </mat-tab> -->
-
         <mat-tab label="Posts">
           <div class="content">
-            <app-profile-posts [user]="user"></app-profile-posts>
+            <app-profile-posts [user]="user" [self]="self" [currentUser]="currentUser"></app-profile-posts>
           </div>
         </mat-tab>
 
         <mat-tab label="Comments">
           <div class="content">
-            <app-profile-comments [comments]="userComments" [user]="user"></app-profile-comments>
+            <app-profile-comments [comments]="userComments" [user]="user" [self]="self" [currentUser]="currentUser"></app-profile-comments>
           </div>
         </mat-tab>
 
         <mat-tab label="Upvotes">
           <div class="content">
-            <app-profile-upvotes [user]="user"></app-profile-upvotes>
+            <app-profile-upvotes [user]="user" [self]="self" [currentUser]="currentUser"></app-profile-upvotes>
           </div>
         </mat-tab>
 
         <mat-tab label="Downvotes">
           <div class="content">
-            <app-profile-downvotes [user]="user"></app-profile-downvotes>
+            <app-profile-downvotes [user]="user" [self]="self" [currentUser]="currentUser"></app-profile-downvotes>
           </div>
         </mat-tab>
 
         <mat-tab label="Saved">
           <div class="content">
-            <app-profile-bookmarks [user]="user"></app-profile-bookmarks>
+            <app-profile-bookmarks [user]="user" [self]="self" [currentUser]="currentUser"></app-profile-bookmarks>
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -49,9 +43,9 @@
       </div>
 
       <div class="user-content" fxLayout="column">
-        <span class="font-bold">{{ user.first_name }} {{ user.last_name }}</span>
-        <span class="color-tertiary">@{{ user.username }}</span>
-        <span class="font-light color-tertiary user-meta-text">User since {{ user.date_joined | date }}</span>
+        <span class="font-bold">{{ profile.first_name }} {{ profile.last_name }}</span>
+        <span class="color-tertiary">@{{ profile.username }}</span>
+        <span class="font-light color-tertiary user-meta-text">User since {{ profile.date_joined | date }}</span>
       </div>
     </div>
 

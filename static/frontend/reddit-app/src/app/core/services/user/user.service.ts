@@ -56,6 +56,10 @@ export class UserService {
     );
   }
 
+  getUserByUsername(username: string) {
+    return this.http.get(this.serverUrl + '/api/v1/users/' + username + '/');
+  }
+
   register(postData) {
     return this.http.post(this.serverUrl + '/rest-auth/registration/', postData);
   }

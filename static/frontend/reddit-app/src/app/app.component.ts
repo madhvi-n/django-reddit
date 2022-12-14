@@ -56,9 +56,11 @@ export class AppComponent implements OnInit, AfterContentChecked {
 
   logout() {
     this.userService.logout().subscribe(
-      (response) => {
-        this.storage.removeItem('user');
-        window.location.href = `${environment.loginUrl}`;
+      (response: any) => {
+        if(response){
+          this.storage.removeItem('user');
+          window.location.href = `${environment.loginUrl}`;
+        }
       },
       (error) => {
         console.log(error);

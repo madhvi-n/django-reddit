@@ -28,7 +28,7 @@ class PostViewSet(BaseReadOnlyViewSet):
         return context
 
     def list(self, request):
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
         return self.paginated_response(queryset, context={'request': request})
 
     def retrieve(self, request, uuid=None):
