@@ -14,6 +14,7 @@ A Reddit clone using Django and Angular
 - Invites and member joining requests for groups
 
 
+![Django Reddit Sign In Page]('https://github.com/madhvi-n/django-reddit/screenshots/image01.png')
 
 # Requirements
 - Backend
