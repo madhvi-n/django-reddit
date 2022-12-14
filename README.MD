@@ -80,6 +80,15 @@ group = Group.objects.create(name="Django", description="Official Django communi
 
 ```
 
+### Generating dummy data using management commands
+
+```
+python manage.py populate_users
+python manage.py populate_posts
+python.manage.py populate_tags
+python.manage.py populate_groups
+```
+
 
 ### Frontend
 
