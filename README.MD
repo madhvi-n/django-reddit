@@ -51,6 +51,11 @@ Making sure your virtual environment is activated, install the dependencies usin
 pip install -r requirements.txt
 ```
 
+You can set the secret key for django project in 2 ways
+- Edit the `reddit_clone/settings.py` file and add a key manually, some random string.
+- Edit the venv file to export `SECRET_KEY`
+
+
 After installing dependencies, migrate Django apps.(You will find the list of apps when you run the command `python manage.py runserver`)
 ```
 python manage.py migrate
