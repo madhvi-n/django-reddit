@@ -11,4 +11,4 @@ class GroupFilterSet(django_filters.rest_framework.FilterSet):
 class GroupMemberFilterSet(django_filters.rest_framework.FilterSet):
     class Meta:
         model = GroupMember
-        fields = ('member_type', 'group', 'status', 'user')
+        fields = ('member_type', 'group', 'user')
