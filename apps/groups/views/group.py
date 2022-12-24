@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from core.views import BaseViewSet, BaseReadOnlyViewSet
-from groups.models import Group
+from groups.models import Group, GroupMember, MemberRequest
 from django.contrib.auth.models import User
 from groups.filters import GroupFilterSet
 from groups.serializers import (
@@ -25,8 +25,6 @@ class GroupPagination(PageNumberPagination):
 class GroupViewSet(BaseViewSet):
     queryset = Group.objects.all().order_by('created_at')
     serializer_class = GroupSerializer
-    pagination_class = GroupPagination
-    filterset_class = GroupFilterSet
     serializer_action_classes = {
         'create' : GroupCreateSerializer,
         'update' : GroupCreateSerializer,
@@ -39,6 +37,20 @@ class GroupViewSet(BaseViewSet):
         'add_topic': [HasGroupEditPermissions],
         'remove_topic': [HasGroupEditPermissions]
     }
+    pagination_class = GroupPagination
+    filterset_class = GroupFilterSet
+
+    def list(self, request):
+        queryset = self.queryset
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(queryset, many=True, context={'request': request })
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None):
+        group = self.get_object()
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(group, context={'request': request })
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         data = request.data
@@ -86,3 +98,25 @@ class GroupViewSet(BaseViewSet):
     @action(detail=True)
     def remove_topic(self, request, pk=None):
         return Response(status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['put'])
+    def leave_group(self, request, pk=None):
+        group = self.get_object()
+        data = request.data
+        if not request.user.is_authenticated:
+            return Response({
+                'error':'The user is anonymous'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        if data['user'] != request.user.pk:
+            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            request = MemberRequest.objects.filter(id=data['member_request']).first()
+            request.delete()
+            member = GroupMember.objects.filter(group=group, user=request.user).first()
+            member.delete()
+        except MemberRequest.DoesNotExist:
+            return Response({'error': 'Member request does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        except GroupMember.DoesNotExist:
+            return Response({'error': 'Group Member does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': True}, status=status.HTTP_200_OK)

@@ -68,7 +68,6 @@ class PostSelfViewSet(BaseViewSet):
     lookup_field = 'uuid'
     serializer_class = PostEditSerializer
     pagination_class = PostPagination
-    filterset_class = PostFilterSet
     permission_classes = [IsAuthenticated, ]
     serializer_action_classes = {
         'list' : PostSerializer,

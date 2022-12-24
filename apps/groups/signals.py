@@ -5,10 +5,8 @@ from groups.services import assign_permissions
 
 @receiver(post_save, sender=MemberRequest)
 def member_request_created_hook(sender, instance, created, **kwargs):
-    if created:
-        if instance.group.group_type == Group.group_type.PUBLIC:
-            instance.is_approved = True
-            instance.save()
+    if created and instance:
+        if instance.group.group_type == "PUBLIC":
             member, created = GroupMember.objects.create(
                 group=instance.group,
                 user=instance.user

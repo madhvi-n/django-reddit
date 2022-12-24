@@ -53,7 +53,7 @@ class MemberRequestViewSet(BaseViewSet):
             )
 
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=data)
+        serializer = serializer_class(data=data, context={'request': request})
         if (serializer.is_valid(raise_exception=False)):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

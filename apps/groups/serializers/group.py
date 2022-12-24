@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from core.serializers import ModelReadOnlySerializer
-from groups.models import Group, GroupMember
+from groups.models import Group, GroupMember, MemberRequest
 from tags.serializers import TagSerializer, TagReadOnlySerializer
 
 
 class GroupReadOnlySerializer(ModelReadOnlySerializer):
     topics = TagSerializer(required=False, many=True)
+    group_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
@@ -13,6 +14,11 @@ class GroupReadOnlySerializer(ModelReadOnlySerializer):
             'id', 'name', 'description', 'group_type', 'topics',
             'archive_posts', 'created_at',
         )
+
+    def get_group_type(self, obj):
+        if obj.group_type is not None:
+            return obj.group_type.title()
+        return None
 
 
 class GroupReadOnlyLightSerializer(ModelReadOnlySerializer):
@@ -23,12 +29,35 @@ class GroupReadOnlyLightSerializer(ModelReadOnlySerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
     topics = TagSerializer(required=False, many=True)
+    members = serializers.SerializerMethodField()
+    member_status = serializers.SerializerMethodField()
+    group_type = serializers.SerializerMethodField()
+
     class Meta:
         model = Group
         fields = (
             'id', 'name', 'description', 'group_type', 'topics',
-            'archive_posts', 'created_at',
+            'archive_posts', 'created_at', 'members', 'member_status'
         )
+
+    def get_members(self, obj):
+        if hasattr(obj, 'members'):
+            return obj.members.count()
+        return 0
+
+    def get_member_status(self, obj):
+        request = self.context['request']
+        if request and request.user and request.user.is_authenticated:
+            member_request = MemberRequest.objects.filter(group=obj, user=request.user).first()
+            if member_request is not None:
+                from groups.serializers import MemberRequestReadOnlySerializer
+                return MemberRequestReadOnlySerializer(member_request).data
+        return None
+
+    def get_group_type(self, obj):
+        if obj.group_type is not None:
+            return obj.group_type.title()
+        return None
 
 
 class GroupCreateSerializer(serializers.ModelSerializer):
@@ -61,11 +90,13 @@ class GroupHeavySerializer(serializers.ModelSerializer):
     topics = TagSerializer(required=False, many=True)
     rules = serializers.SerializerMethodField()
     members_count = serializers.SerializerMethodField()
+    member_status = serializers.SerializerMethodField()
+    group_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
         fields = (
-            'id', 'name', 'description', 'group_type', 'topics',
+            'id', 'name', 'description', 'group_type', 'topics', 'member_status',
             'archive_posts', 'rules', 'members_count', 'created_at',
         )
 
@@ -79,3 +110,17 @@ class GroupHeavySerializer(serializers.ModelSerializer):
         if hasattr(obj, 'members'):
             return obj.members.count()
         return 0
+
+    def get_member_status(self, obj):
+        request = self.context['request']
+        if request and request.user and request.user.is_authenticated:
+            member_request = MemberRequest.objects.filter(group=obj, user=request.user).first()
+            if member_request is not None:
+                from groups.serializers import MemberRequestReadOnlySerializer
+                return MemberRequestReadOnlySerializer(member_request).data
+        return None
+
+    def get_group_type(self, obj):
+        if obj.group_type is not None:
+            return obj.group_type.title()
+        return None
