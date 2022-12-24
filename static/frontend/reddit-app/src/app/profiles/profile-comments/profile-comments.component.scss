@@ -8,7 +8,8 @@
   width: inherit;
   gap: 6px;
   color: #707070;
-
+  width: -webkit-fill-available;
+  
   .comment-subtext {
     font-size: 14px;
     color: #232323;

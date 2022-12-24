@@ -57,24 +57,36 @@
 
     <div class="related-section" *ngIf="userGroups.length">
       <span class="heading-5 font-bold">
-        Your groups
+        <ng-container *ngIf="self; else elseTemplate">
+          Your groups
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ user.username}}'s groups
+        </ng-template>
+      </span>
+
         <mat-nav-list>
           <mat-list-item *ngFor="let group of userGroups">
              <a matLine [routerLink]="[ '../../group', group.id ]">{{ group.name }}</a>
           </mat-list-item>
         </mat-nav-list>
-      </span>
     </div>
 
     <div class="related-section" *ngIf="modGroups.length">
       <span class="heading-5 font-bold">
-        You're a moderator of these groups
+        <ng-container *ngIf="self; else elseTemplate">
+          You're a moderator of these groups
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ user.username}}'s moderator of these groups
+        </ng-template>
+      </span>
+
         <mat-nav-list>
           <mat-list-item *ngFor="let member of modGroups">
              <a matLine [routerLink]="[ '../../group', member.group.id ]">{{ member.group.name }}</a>
           </mat-list-item>
         </mat-nav-list>
-      </span>
     </div>
   </div>
 </div>
