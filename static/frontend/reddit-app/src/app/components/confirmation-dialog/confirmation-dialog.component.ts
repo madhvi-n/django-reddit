@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  showCancel: boolean = false;
+  showCancel: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
@@ -15,7 +15,7 @@ export class ConfirmationDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.showCancel = this.data.showCancel ? true : false;
+    this.showCancel = this.data.showCancel ? this.data.showCancel : true;
   }
 
   closeDialog(isConfirmed: boolean) {

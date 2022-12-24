@@ -16,7 +16,11 @@ export class ProfilePostsComponent implements OnInit {
   @Input() currentUser: string;
 
   posts: Post[] = [];
-
+  page: number = 1;
+  isLoading: boolean = false;
+  showLoader: boolean = false;
+  next: string;
+  
   constructor(
     private userService: UserService,
     private postService: PostService,
@@ -29,10 +33,26 @@ export class ProfilePostsComponent implements OnInit {
   }
 
   getPosts(){
-    this.postService.filterPosts('', '', '', this.currentUser).subscribe(
+    this.postService.filterPosts(this.page, '', '', '', this.currentUser).subscribe(
       (response: any) => {
-        this.posts = response.results;
+        this.posts = [...this.posts, ...response.results];
+        this.next = response.next;
+        if (this.next) {
+          this.page = parseInt(this.next.split('=')[1]);
+        }
+        this.isLoading = false;
+        this.showLoader = false;
+      },
+      (err: any) => {
+        console.log(err);
+        this.isLoading = false;
+        this.showLoader = false;
       })
+  }
+
+  loadMorePosts(): void {
+    this.showLoader = true;
+    this.getPosts();
   }
 
 }

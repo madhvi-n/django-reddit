@@ -3,6 +3,20 @@
     <app-post [post]="post" [showFooter]="false" [user]="user.id">
     </app-post>
   </ng-container>
+
+  <ng-container *ngIf="next">
+    <ng-container *ngIf="showLoader; else buttonview">
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="height: 100px">
+        <mat-spinner color="warn" [diameter]="30"></mat-spinner>
+      </div>
+    </ng-container>
+
+    <ng-template #buttonview>
+      <div *ngIf="!showSpinner && next" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="height: 100px">
+        <button mat-raised-button (click)="loadMorePosts()">Load more posts</button>
+      </div>
+    </ng-template>
+  </ng-container>
 </ng-container>
 
 <ng-template #noPosts>

@@ -24,7 +24,7 @@ export class CommentFooterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.user.id == this.comment.user.id) {
+    if (this.user?.id == this.comment?.user?.id) {
       this.can_reply = false;
     }
     this.checkUserVote();
@@ -44,7 +44,7 @@ export class CommentFooterComponent implements OnInit {
   }
 
   upvoteClicked() {
-    if (this.comment.is_removed) {
+    if (this.comment?.is_removed) {
       return;
     }
     if (this.user_vote == 1) {
@@ -55,7 +55,7 @@ export class CommentFooterComponent implements OnInit {
   }
 
   downvoteClicked() {
-    if (this.comment.is_removed) {
+    if (this.comment?.is_removed) {
       return;
     }
     if (this.user_vote == -1) {

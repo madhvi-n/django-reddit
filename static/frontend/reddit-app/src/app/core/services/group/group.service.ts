@@ -36,14 +36,22 @@ export class GroupService {
     );
   }
 
-  filterMembers(member_type: string, user:number){
+  filterMembers(member_type: string, group_id: number | string, user:number | string){
     return this.http.get(
-      this.baseUrl + 'members/?member_type=' + member_type + '&user=' + user
+      this.baseUrl + 'members/?member_type=' + member_type + '&group=' + group_id + '&user=' + user
     );
   }
 
   joinGroup(group_id: number, data) {
     return this.http.post(this.baseUrl + 'groups/' + group_id + '/member_requests/', data)
+  }
+
+  cancelRequest(group_id: number, request_id: number) {
+    return this.http.delete(this.baseUrl + 'groups/' + group_id + '/member_requests/' + request_id + '/');
+  }
+
+  leaveGroup(group_id: number, data) {
+    return this.http.put(this.baseUrl + 'groups/' + group_id + '/leave_group/', data);
   }
 
   inviteMember(group_id: number, data) {

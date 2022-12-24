@@ -50,7 +50,6 @@ export class ProfileComponent implements OnInit {
           this.userService.user.subscribe(
             (response: User) => {
               this.user = response;
-              console.log(this.user);
               if(this.user && this.user.username == this.currentUser) {
                 this.self = true;
               }
@@ -82,7 +81,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getModeratorGroups(){
-    this.groupService.filterMembers('MODERATOR', this.user.id).subscribe(
+    this.groupService.filterMembers('MODERATOR', '', this.user.id).subscribe(
       (response: any) => {
         this.modGroups = response;
       })

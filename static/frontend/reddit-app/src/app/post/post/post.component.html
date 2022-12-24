@@ -61,32 +61,34 @@
       </ng-container>
     </mat-card-content>
 
-    <div class="card-actions" *ngIf="showFooter" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
-      <a [routerLink]="[ '', post.uuid ]">
-        <mat-icon class="card-actions-icon" style="vertical-align:middle">insert_comment</mat-icon>
-        <span class="sub-text">
-          <ng-container  *ngIf="post.comments > 0 || post.status === 'ARCHIVED'; else viewTemplate">
-            {{ post.comments }} comments
+    <ng-container *ngIf="showFooter">
+      <div class="card-actions" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center">
+        <a [routerLink]="[ '', post.uuid ]">
+          <mat-icon class="card-actions-icon" style="vertical-align:middle">insert_comment</mat-icon>
+          <span class="sub-text">
+            <ng-container  *ngIf="post.comments > 0 || post.status === 'ARCHIVED'; else viewTemplate">
+              {{ post.comments }} comments
+            </ng-container>
+            <ng-template #viewTemplate>
+              Add comment
+            </ng-template>
+          </span>
+        </a>
+
+        <button mat-icon-button class="card-actions-icon"><mat-icon>share</mat-icon></button>
+
+        <button mat-icon-button style="margin-left: auto;" (click)="checkBookmark()">
+          <ng-container *ngIf="post.user_bookmark?.id; else bookmarkTemplate">
+            <mat-icon class="card-actions-icon">bookmark</mat-icon>
+            <!-- <span class="sub-text">Saved</span> -->
           </ng-container>
-          <ng-template #viewTemplate>
-            Add comment
+          <ng-template #bookmarkTemplate>
+            <mat-icon class="card-actions-icon">bookmark_border</mat-icon>
+            <!-- <span class="sub-text">Save</span> -->
           </ng-template>
-        </span>
-      </a>
+        </button>
 
-      <button mat-icon-button class="card-actions-icon"><mat-icon>share</mat-icon></button>
-
-      <button mat-icon-button style="margin-left: auto;" (click)="checkBookmark()">
-        <ng-container *ngIf="post.user_bookmark?.id; else bookmarkTemplate">
-          <mat-icon class="card-actions-icon">bookmark</mat-icon>
-          <!-- <span class="sub-text">Saved</span> -->
-        </ng-container>
-        <ng-template #bookmarkTemplate>
-          <mat-icon class="card-actions-icon">bookmark_border</mat-icon>
-          <!-- <span class="sub-text">Save</span> -->
-        </ng-template>
-      </button>
-
-    </div>
+      </div>
+    </ng-container>
   </div>
 </mat-card>

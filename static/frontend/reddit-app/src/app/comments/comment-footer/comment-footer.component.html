@@ -10,7 +10,6 @@
     </button>
 
     <div class="">
-      <a *ngIf="nested && can_reply && user" (click)="nestedReplyEvent()" class="reply-btn">Reply</a>
       <a *ngIf="!user" class="reply-btn">Reply</a>
 
       <a *ngIf="nested" (click)="nestedReplyEvent()" class="reply-btn" [ngPlural]="comment.child_count">

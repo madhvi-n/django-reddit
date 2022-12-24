@@ -36,7 +36,9 @@ import { CommentCreateComponent } from './comments/comment-create/comment-create
 import { CommentEditComponent } from './comments/comment-edit/comment-edit.component';
 import { CommentFooterComponent } from './comments/comment-footer/comment-footer.component';
 import { CommentListComponent } from './comments/comment-list/comment-list.component';
+
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { ReportDialogComponent } from './components/report-dialog/report-dialog.component';
 
 import { ProfileComponent } from './profiles/profiles/profiles.component';
 import { AddInterestDialogComponent } from './profiles/add-interest-dialog/add-interest-dialog.component';
@@ -53,6 +55,8 @@ import { GroupPostComponent } from './group/group-post/group-post.component';
 import { GroupFeedComponent } from './group/group-feed/group-feed.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
 import { GroupRouterComponent } from './group/group-router/group-router.component';
+
+import { GroupSearchComponent } from './group/group-search/group-search.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +81,7 @@ import { GroupRouterComponent } from './group/group-router/group-router.componen
     CommentListComponent,
 
     ConfirmationDialogComponent,
+    ReportDialogComponent,
 
     GroupComponent,
     GroupPostComponent,
@@ -93,6 +98,8 @@ import { GroupRouterComponent } from './group/group-router/group-router.componen
     ProfileUpvotesComponent,
     ProfileCommentsComponent,
     ProfileDownvotesComponent,
+
+    GroupSearchComponent,
 
     SafeContentPipe
   ],

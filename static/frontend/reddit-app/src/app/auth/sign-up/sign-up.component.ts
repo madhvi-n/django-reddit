@@ -36,6 +36,11 @@ export class SignUpComponent implements OnInit {
       password1: new FormControl('', { validators: [Validators.required] }),
       password2: new FormControl('', { validators: [Validators.required] })
     });
+    console.log(this.registerForm);
+  }
+
+  get formControl() {
+    return this.registerForm.controls;
   }
 
   toggleVisibility() {
@@ -60,7 +65,12 @@ export class SignUpComponent implements OnInit {
       },
       (err) => {
         this.isLoading = false;
-        console.log(err.error);
+        if(err.error.password1){
+          this.snackbar.open(`${err.error.password1[0]}`);
+        }
+        if(err.error.email){
+          this.snackbar.open(`${err.error.email[0]}`);
+        }
       }
     );
   }

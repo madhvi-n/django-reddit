@@ -69,7 +69,7 @@ export class FeedComponent implements OnInit {
   topGroups() {
     this.groupService.getGroups().subscribe(
       (response: any) => {
-        this.groups = response.results.slice(0, 5);
+        this.groups = response;
       })
   }
 

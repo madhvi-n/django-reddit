@@ -3,6 +3,7 @@ import { Post } from '@reddit/core/models/post.model';
 import { PostService } from '@reddit/core/services/post/post.service';
 import { environment } from '@reddit/env/environment';
 import { MatDialog } from '@angular/material/dialog';
+import { ReportDialogComponent } from '@reddit/app/components/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-post',
@@ -119,25 +120,25 @@ export class PostComponent implements OnInit {
       return;
     } else {
       const dialogWidth = window.innerWidth <= 540 ? `90vw` : `527px`;
-      // const dialogRef = this.dialog.open(ReportDialogComponent, {
-      //   width: dialogWidth,
-      //   maxWidth: dialogWidth,
-      //   data: {
-      //     user: this.user_id,
-      //     uuid: this.post.uuid,
-      //     url: `${window.location.href}`
-      //   }
-      // });
-      // dialogRef.afterClosed().subscribe(
-      //   (response: any) => {
-      //     if (response) {
-      //       this.post.report = response;
-      //     }
-      //   });
+      const dialogRef = this.dialog.open(ReportDialogComponent, {
+        width: dialogWidth,
+        maxWidth: dialogWidth,
+        data: {
+          user: this.user_id,
+          uuid: this.post.uuid,
+          url: `${window.location.href}`
+        }
+      });
+      dialogRef.afterClosed().subscribe(
+        (response: any) => {
+          if (response) {
+            this.post.report = response;
+          }
+        });
     }
   }
 
   redirectToLogin() {
-    window.location.href = `${environment.loginUrl}/sign-in&continue=${window.location.href}`;
+    window.location.href = `${environment.loginUrl}`;
   }
 }

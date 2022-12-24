@@ -1,6 +1,6 @@
 <div class="">
   <mat-toolbar color="secondary" class="header shadow-sm" *ngIf="!authRoute">
-    <div style="display:flex; gap:10px; align-items: center">
+    <div class="nav-links">
       <img src="../assets/favicon/apple-touch-icon.png" alt="Icon" height="30" width="30">
       <a mat-flat-button [routerLink]="['']" class="font-bold color-primary navbar-brand" style="text-decoration:none">
         Django Reddit
@@ -11,6 +11,9 @@
         </a>
         <a mat-flat-button (click)="createGroup()" class="color-tertiary">
           Create group
+        </a>
+        <a mat-flat-button [routerLink]="[ 'all_groups']" class="color-tertiary">
+          All groups
         </a>
       </ng-container>
     </div>
@@ -29,8 +32,7 @@
     </div>
 
     <ng-container *ngIf="user; else elseTemplate">
-      <div class="buttons-section" *ngIf="user" style="display:flex; align-items:center; gap: 6px;">
-
+      <div class="buttons-section nav-links" *ngIf="user" >
         <a mat-icon-button [routerLink]="[ 'user', user.username]">
           <mat-icon>person</mat-icon>
         </a>

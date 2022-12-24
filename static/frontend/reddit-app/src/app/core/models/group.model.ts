@@ -19,4 +19,5 @@ export class Group {
   created_at: string;
   updated_at?: string;
   members_count?: number;
+  member_status?: any;
 }

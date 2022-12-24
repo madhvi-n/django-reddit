@@ -96,6 +96,12 @@
   }
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .footer {
   padding: 8px 16px;
   color: #232323;

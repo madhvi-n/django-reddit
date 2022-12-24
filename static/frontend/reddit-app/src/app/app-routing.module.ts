@@ -16,6 +16,7 @@ import { GroupComponent } from './group/group/group.component';
 import { GroupRouterComponent } from './group/group-router/group-router.component';
 import { GroupPostComponent } from './group/group-post/group-post.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
+import { GroupSearchComponent } from './group/group-search/group-search.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'logout',
     component: SignOutComponent
+  },
+  {
+    path: 'all_groups',
+    component: GroupSearchComponent
   },
   {
     path: 'user/:username',
