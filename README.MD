@@ -1,4 +1,6 @@
 # Django Reddit
+[![Django CI](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml/badge.svg)](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml)
+
 A Reddit clone using Django and Angular
 
 ### Features
