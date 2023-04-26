@@ -102,7 +102,7 @@ python.manage.py populate_groups
 
 ### Frontend
 
-Start another shell tab and access the root of frontend directory `reddit-app` (without bash or activated virtual environment). <br>
+Start another shell tab and access the root of frontend directory `static/frontend/reddit-app` (without bash or activated virtual environment). <br>
 Install the angular dependencies
 ```
 npm install
