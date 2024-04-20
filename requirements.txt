@@ -18,7 +18,7 @@ drf-nested-routers==0.93.4
 gunicorn==22.0.0
 idna==3.3
 oauthlib==3.2.2
-Pillow==9.3.0
+Pillow==10.3.0
 pycparser==2.21
 PyJWT==2.4.0
 python3-openid==3.2.0
