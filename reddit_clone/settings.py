@@ -36,7 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     u'localhost',
     u'127.0.0.1',
-    'django-reddit.onrender.com'
+    'https://reddit-clone-jzgs.onrender.com'
 ]
 
 
