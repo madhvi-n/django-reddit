@@ -1,0 +1,38 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd django-reddit/static/frontend/reddit-app
+          npm install
+
+      - name: Build Angular app
+        run: |
+          cd django-reddit/static/frontend/reddit-app
+          ng build --configuration production --base-href "/django_reddit/"
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: django-reddit/static/frontend/reddit-app/dist/reddit-app
