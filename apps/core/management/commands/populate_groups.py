@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
                 try:
                     user = User.objects.get(id=group.id)
-                    admin = GroupMember.objects.get_or_create(user=user, group=group, member_type="ADMIN")
-                    print(admin.username)
+                    admin, created = GroupMember.objects.get_or_create(user=user, group=group, member_type="ADMIN")
+                    print(admin.id)
                 except User.DoesNotExist:
                     pass
