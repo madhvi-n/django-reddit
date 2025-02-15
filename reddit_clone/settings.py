@@ -34,9 +34,7 @@ SECRET_KEY = get_env_variable('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    u'localhost',
-    u'127.0.0.1',
-    'https://reddit-clone-jzgs.onrender.com'
+    '*'
 ]
 
 
@@ -80,6 +78,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -208,9 +207,11 @@ CORS_REPLACE_HTTPS_REFERER = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_PREFLIGHT_MAX_AGE = 86400
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:4200",
+    "https://madhvi-n.github.io"
 ]
 
 
