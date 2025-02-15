@@ -28,16 +28,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd /static/frontend/reddit-app
+          cd ./static/frontend/reddit-app
           npm install
 
       - name: Build Angular app
         run: |
-          cd /static/frontend/reddit-app
+          cd ./static/frontend/reddit-app
           ng build --configuration production --base-href "/django_reddit/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: /static/frontend/reddit-app/dist/reddit-app
+          folder: ./static/frontend/reddit-app/dist/reddit-app
