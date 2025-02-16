@@ -24,17 +24,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 14
 
       - name: Install dependencies
         run: |
           cd ./static/frontend/reddit-app
           npm install
 
+      - name: Install Angular 10 CLI
+        run: npm install -g @angular/cli@10  # Install Angular CLI globally
+
       - name: Build Angular app
         run: |
           cd ./static/frontend/reddit-app
-          ng build --configuration production --base-href "/django_reddit/"
+          npx ng build --configuration production --base-href "/django_reddit/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
