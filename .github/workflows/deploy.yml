@@ -1,46 +1,46 @@
-name: Deploy Angular to GitHub Pages
+# name: Deploy Angular to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Debug - List repository files
-        run: ls -R
+#       - name: Debug - List repository files
+#         run: ls -R
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 14
 
-      - name: Install dependencies
-        run: |
-          cd ./static/frontend/reddit-app
-          npm install
+#       - name: Install dependencies
+#         run: |
+#           cd ./static/frontend/reddit-app
+#           npm install
 
-      - name: Install Angular 10 CLI
-        run: npm install -g @angular/cli@10  # Install Angular CLI globally
+#       - name: Install Angular 10 CLI
+#         run: npm install -g @angular/cli@10  # Install Angular CLI globally
 
-      - name: Build Angular app
-        run: |
-          cd ./static/frontend/reddit-app
-          npx ng build --configuration production --base-href "/django_reddit/"
+#       - name: Build Angular app
+#         run: |
+#           cd ./static/frontend/reddit-app
+#           npx ng build --configuration production --base-href "/django_reddit/"
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ./static/frontend/reddit-app/dist/reddit-app
+#       - name: Deploy to GitHub Pages
+#         uses: JamesIves/github-pages-deploy-action@v4
+#         with:
+#           branch: gh-pages
+#           folder: ./static/frontend/reddit-app/dist/reddit-app
