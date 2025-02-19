@@ -21,6 +21,11 @@ A Reddit clone using Django and Angular
 
 ![Django Reddit Feed](screenshots/image02.png?raw=true "Django Reddit Feed")
 
+![Django Reddit Group](screenshots/image03.png?raw=true "Django Reddit Group")
+
+![Django Reddit User Feed](screenshots/image04.png?raw=true "Django Reddit User Feed")
+
+
 # Requirements
 - Backend
     - Python 3.8+
