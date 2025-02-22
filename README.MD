@@ -102,6 +102,27 @@ A **feature-rich Reddit clone** built using **Django** for the backend and **Ang
 
     Visit **`http://127.0.0.1:4200/`** to access the frontend.
 
+## 📝 API Documentation
+
+The API documentation is available via **Swagger**:
+
+- **Swagger UI:** `http://127.0.0.1:8000/api/swagger/`
+- **Redoc:** `http://127.0.0.1:8000/api/redoc/`
+
+## ⚙️ Environment Variables
+
+Create a `.env` file to store sensitive configuration details:
+
+```ini
+SECRET_KEY=your_secret_key
+DEBUG=True
+DATABASE_NAME=my_db
+DATABASE_USER=my_username
+DATABASE_PASSWORD=my_db_password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+```
+
 
 ## 📈 Management Commands
 
