@@ -1,21 +1,23 @@
 # Django Reddit
+
 [![Django CI](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml/badge.svg)](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml)
 [![CodeQL](https://github.com/madhvi-n/django-reddit/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/madhvi-n/django-reddit/actions/workflows/github-code-scanning/codeql)
 
-A Reddit clone using Django and Angular
+A **feature-rich Reddit clone** built using **Django** for the backend and **Angular** for the frontend. This project allows users to create, interact, and engage in discussions within communities.
 
-### Features
+## 🚀 Features
 
-- User authentication.
-- User can create stand alone posts and group posts.
-- User can follow people, posts.
-- Thread discussions on posts
-- Upvote and downvotes on posts and comments
-- Report posts
-- Bookmark posts
-- User can join groups, create groups which can be private, restricted or public.
-- Invites and member joining requests for groups
+- **User Authentication**: Sign up, log in, and manage accounts securely.
+- **Create & Interact with Posts**: Standalone and group-based posts with threaded discussions.
+- **Community Features**: Users can create and join groups (public, private, or restricted).
+- **Engagement Mechanisms**: Upvote/downvote system for posts and comments.
+- **Social Interaction**: Follow users and posts.
+- **Content Moderation**: Report inappropriate content.
+- **Bookmarks & Saves**: Users can save their favorite posts.
+- **Invites & Membership Requests**: Manage group access through invites and requests.
 
+
+## 📸 Screenshots
 
 ![Django Reddit Sign In Page](screenshots/image01.png?raw=true "Django Reddit Sign In")
 
@@ -25,107 +27,111 @@ A Reddit clone using Django and Angular
 
 ![Django Reddit User Feed](screenshots/image04.png?raw=true "Django Reddit User Feed")
 
+<br>
 
-# Requirements
-- Backend
-    - Python 3.8+
-    - virtualenv
-    - WSL
+## 🔧 Requirements
 
+### Backend
+- Python 3.8+
+- virtualenv
+- WSL (Windows Subsystem for Linux)
 
-- Frontend
-    - Angular 10.2.4 (or 10.2.5)
-    - Node 10.13.x +
-
-
-
-# Installation
-
-Clone the repository and enter the root directory
-```
-git clone https://github.com/madhvi-n/django-reddit.git
-cd django-reddit
-```
+### Frontend
+- Angular 10.2.4 (or 10.2.5)
+- Node 10.13.x+
 
 
-Create a virtual environment and activate it
-```
-virtualenv venv
-source venv/bin/activate
-```
+## ⚙️ Installation
 
-Making sure your virtual environment is activated, install the dependencies using `pip`
-```
-pip install -r requirements.txt
-```
+### Backend Setup
+1. Clone the repository and navigate to the project directory:
+    ```bash
+    git clone https://github.com/madhvi-n/django-reddit.git
+    cd django-reddit
+    ```
 
-You can set the secret key for django project in 2 ways
-- Edit the `reddit_clone/settings.py` file and add a key manually, some random string.
-- Edit the venv file to export `SECRET_KEY`
+2. Create and activate a virtual environment:
+    ```bash
+    virtualenv venv
+    source venv/bin/activate  # For macOS/Linux
+    venv\Scripts\activate     # For Windows
+    ```
+
+3. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Set the **Django Secret Key**:
+    - Edit `reddit_clone/settings.py` and manually set a secret key.
+    - Or, export `SECRET_KEY` in your environment variables.
+
+5. Apply database migrations:
+    ```bash
+    python manage.py migrate
+    ```
+
+6. Run the development server:
+    ```bash
+    python manage.py runserver
+    ```
+
+    Visit **`http://127.0.0.1:8000/`** to access the app.
 
 
-After installing dependencies, migrate Django apps.(You will find the list of apps when you run the command `python manage.py runserver`)
-```
-python manage.py migrate
-```
 
-Finally start your Django server
-```
-python manage.py runserver
-```
+### 🌐 Frontend Setup
+1. Navigate to the frontend directory:
+    ```bash
+    cd static/frontend/reddit-app
+    ```
 
-Visit `http://127.0.0.1:8000/` or `localhost:8000` for running web server
-Alternatively you can access the admin interface on `http://127.0.0.1:8000/admin/` or `localhost:8000/admin`
+2. Install Angular dependencies:
+    ```bash
+    npm install
+    ```
 
-Access python shell
-```
-python manage.py shell
-```
+3. Run the frontend development server:
+    ```bash
+    ng serve
+    ```
+
+    Visit **`http://127.0.0.1:4200/`** to access the frontend.
 
 
-### Generating data using shell
-```
+## 📈 Management Commands
+
+### Generate Data in Django Shell
+```python
 from django.contrib.auth.models import User
 from posts.models import Post
 from groups.models import Group
 
 user = User.objects.get(id=1)
-post = Post.objects.create(title="Something here", content="A very long text as the content here", author=user)
-
+post = Post.objects.create(title="Sample Post", content="Post content here", author=user)
 group = Group.objects.create(name="Django", description="Official Django community on Django Reddit")
-
 ```
 
-### Generating dummy data using management commands
-
-```
+### Populate Dummy Data
+```bash
 python manage.py populate_users
 python manage.py populate_posts
-python.manage.py populate_tags
-python.manage.py populate_groups
+python manage.py populate_tags
+python manage.py populate_groups
 ```
 
 
-### Frontend
-
-Start another shell tab and access the root of frontend directory `static/frontend/reddit-app` (without bash or activated virtual environment). <br>
-Install the angular dependencies
-```
-npm install
-```
-
-<br>
-
-Visit `http://127.0.0.1:4200` or `localhost:4200` to access frontend.
+## 💡 Notes
+- **Backend (Django) runs on WSL**
+- **Frontend (Angular) runs directly on Windows**
 
 
-#### Note: Django/Backend runs on WSL and Angular/Frontend runs directly on Windows
+## 📐 References
+- [How to Install Python 3.8 on Ubuntu 18.04](https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/)
+- [Installing Node.js on Windows](https://www.guru99.com/download-install-node-js.html)
+- [Official Angular 10 Installation Guide](https://v10.angular.io/guide/setup-local)
+- [Installing a Specific Version of Angular CLI](https://stackoverflow.com/questions/44759621/install-specific-version-of-ng-cli)
+- [Angular, Angular CLI, and Node.js Compatibility](https://stackoverflow.com/questions/60248452/is-there-a-compatibility-list-for-angular-angular-cli-and-node-js)
 
+### 🎉 **Happy Coding!** 🚀
 
-## References
-
-- [How to install Python3.8 on Ubuntu 18.04](https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/)
-- [Installing NodeJs on Windows](https://www.guru99.com/download-install-node-js.html)
-- [Official Angular 10 installation guide](https://v10.angular.io/guide/setup-local)
-- [Installing a specific version of ng cli or packages](https://stackoverflow.com/questions/44759621/install-specific-version-of-ng-cli)
-- [Compatibility list for Angular, Angular Cli and Node Js](https://stackoverflow.com/questions/60248452/is-there-a-compatibility-list-for-angular-angular-cli-and-node-js)
