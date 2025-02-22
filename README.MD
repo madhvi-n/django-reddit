@@ -1,7 +1,11 @@
-# Django Reddit - A modern Reddit clone built with Django and Angular, featuring communities, discussions, and social interactions.
+# Django Reddit
 
 [![Django CI](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml/badge.svg)](https://github.com/madhvi-n/django-reddit/actions/workflows/django.yml)
 [![CodeQL](https://github.com/madhvi-n/django-reddit/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/madhvi-n/django-reddit/actions/workflows/github-code-scanning/codeql)
+[![Python](https://img.shields.io/badge/Python-3.12-blue?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-3.1-brightgreen?style=flat&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Django Rest Framework](https://img.shields.io/badge/Django_Rest_Framework-3.11-red?style=flat&logo=django&logoColor=white)](https://www.django-rest-framework.org/)
+[![Angular](https://img.shields.io/badge/Angular-10-blueviolet?style=flat&logo=angular&logoColor=white)](https://angular.io/)
 
 A **feature-rich Reddit clone** built using **Django** for the backend and **Angular** for the frontend. This project allows users to create, interact, and engage in discussions within communities.
 
