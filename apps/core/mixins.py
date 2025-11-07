@@ -1,6 +1,5 @@
+from rest_framework import serializers, status
 from rest_framework.response import Response
-from rest_framework import serializers
-from rest_framework import status
 
 
 class MultiSerializerViewSetMixin(object):
@@ -53,7 +52,7 @@ class MultiPermissionViewSetMixin(object):
 
                 If there's no entry for that action then just fallback to the regular
                 get_permissions lookup: self.permission_classes, DefaultPermissions.
-                """
+        """
         try:
             permissions = self.permission_action_classes[self.action]
             return [permission() for permission in permissions]
@@ -76,13 +75,15 @@ class PaginatedResponseMixin(object):
         if page is not None:
             kwargs = {}
             if fields is not None:
-                kwargs = {'fields': fields}
+                kwargs = {"fields": fields}
             serializer = self.get_serializer(page, context=context, many=True, **kwargs)
             if paginator is not None:
                 return paginator.get_paginated_response(serializer.data)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(queryset, context=context, many=True, fields=fields)
+        serializer = self.get_serializer(
+            queryset, context=context, many=True, fields=fields
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -90,10 +91,11 @@ class DestroyModelMixin:
     """
     Destroy a model instance.
     """
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response({'success': True }, status=status.HTTP_200_OK)
+        return Response({"success": True}, status=status.HTTP_200_OK)
 
     def perform_destroy(self, instance):
         instance.delete()

@@ -7,8 +7,8 @@ class ReportType(TimeStampedModel):
     info = models.TextField(blank=True)
 
     class Meta:
-        verbose_name = 'Report Type'
-        verbose_name_plural = 'Report Types'
+        verbose_name = "Report Type"
+        verbose_name_plural = "Report Types"
 
     def __str__(self):
         return f"{self.title}"

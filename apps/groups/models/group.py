@@ -1,8 +1,9 @@
-from django.db import models
+import uuid
+
 from core.models import TimeStampedModel
 from django.contrib.auth.models import User
+from django.db import models
 from tags.models import Tag
-import uuid
 
 
 class Group(TimeStampedModel):
@@ -21,16 +22,14 @@ class Group(TimeStampedModel):
             PUBLIC: Anyone can view, post, and comment to this community.<br>
             RESTRICTED: Anyone can view this community, but only approved users can post.<br>
             PRIVATE: Only approved users can view and submit to this community.
-        """
+        """,
     )
     archive_posts = models.BooleanField(
         default=False,
-        help_text="Posts after a period of X months will be archived automatically"
+        help_text="Posts after a period of X months will be archived automatically",
     )
     topics = models.ManyToManyField(
-        Tag, blank=True,
-        verbose_name="topics",
-        related_name="groups"
+        Tag, blank=True, verbose_name="topics", related_name="groups"
     )
 
     class Meta:

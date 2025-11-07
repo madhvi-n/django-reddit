@@ -1,8 +1,7 @@
-from django.db import models
 from core.models import TimeStampedModel
-
-from reports.models import ReportType
 from django.contrib.auth.models import User
+from django.db import models
+from reports.models.types import ReportType
 
 
 class AbstractReport(TimeStampedModel):
@@ -24,22 +23,25 @@ class AbstractReport(TimeStampedModel):
     reporter = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='%(class)s_reports',
+        related_name="%(class)s_reports",
     )
     report_type = models.ForeignKey(
-      ReportType, null=True,
-      on_delete=models.CASCADE,
-      related_name='%(class)s_reports',
+        ReportType,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="%(class)s_reports",
     )
     url = models.TextField(blank=True)
     additional_info = models.TextField(blank=True)
     status = models.CharField(
         max_length=10,
         choices=STATUS.choices,
-        default='INITIATED',
-        help_text=STATUS_HELP_TEXT
+        default="INITIATED",
+        help_text=STATUS_HELP_TEXT,
     )
 
     class Meta:
         abstract = True
-        ordering = ['created_at',]
+        ordering = [
+            "created_at",
+        ]

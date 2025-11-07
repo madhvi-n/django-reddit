@@ -1,5 +1,6 @@
 import os
 
+
 def configure_environment():
     environment = os.getenv("ENVIRONMENT", "development").lower()
 
@@ -9,4 +10,7 @@ def configure_environment():
         "test": "reddit_clone.settings.test",
     }
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_map.get(environment, settings_map["development"]))
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        settings_map.get(environment, settings_map["development"]),
+    )

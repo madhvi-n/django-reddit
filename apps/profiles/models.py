@@ -1,19 +1,16 @@
-from django.db import models
-
 from core.models import TimeStampedModel
 from django.contrib.auth.models import User
+from django.db import models
 from tags.models import Tag
 
 
 class UserMetaInfo(TimeStampedModel):
     user = models.OneToOneField(
-        User,
-        verbose_name="user",
-        related_name="meta_info",
-        on_delete=models.CASCADE
+        User, verbose_name="user", related_name="meta_info", on_delete=models.CASCADE
     )
     username_changed = models.DateField(
-        null=True, blank=True,
+        null=True,
+        blank=True,
         verbose_name="username_changed",
     )
     bio = models.TextField(blank=True)

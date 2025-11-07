@@ -1,7 +1,6 @@
+from comments.abstracts import AbstractComment, AbstractCommentVote
 from django.db import models
 from django.db.models import Sum
-
-from comments.abstracts import AbstractComment, AbstractCommentVote
 from posts.models import Post
 
 
@@ -31,7 +30,7 @@ class PostComment(AbstractComment):
         score = 0
         votes = PostCommentVote.objects.filter(post_comment=self)
         if votes.exists():
-    	    score = votes.aggregate(Sum('vote'))['vote__sum'] or 0
+            score = votes.aggregate(Sum('vote'))['vote__sum'] or 0
         return score
     score = property(_get_score)
 
