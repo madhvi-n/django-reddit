@@ -29,18 +29,14 @@ class Command(BaseCommand):
                 username=user.get('username') + str(group_id),
                 password=self.generate_password()
             )
-            print(user.id)
-            print(user.email)
             try:
                 member_type = random.choices(["MEMBER", "MODERATOR"])
-                print(member_type[0])
                 group = Group.objects.get(id=group_id)
                 member, created = GroupMember.objects.get_or_create(
                     user=user,
                     member_type=member_type,
                     group=group
                 )
-                print(member.id)
             except Group.DoesNotExist:
                 pass
         print()

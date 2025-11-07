@@ -39,8 +39,4 @@ class Command(BaseCommand):
                 email=email,
                 password=user_password
             )
-            print(user.id)
-            print(f"Email: {email}")
-            print(f"Password: {user_password}")
-            print()
             

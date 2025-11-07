@@ -15,5 +15,3 @@ class Command(BaseCommand):
                     content=new_data.get('content'),
                     author=user
                 )
-                print(post.id)
-                print(post.title)

@@ -23,5 +23,3 @@ class Command(BaseCommand):
                 tag, created = Tag.objects.get_or_create(
                     name=name, tag_type=tag_type
                 )
-                print(tag.name)
-                print(tag_type.title)

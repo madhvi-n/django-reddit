@@ -61,6 +61,3 @@ class Command(BaseCommand):
             report_type, created = ReportType.objects.get_or_create(
                 title=type.get('title'), info=type.get('info')
             )
-
-            print(report_type.id)
-            print(report_type.title)

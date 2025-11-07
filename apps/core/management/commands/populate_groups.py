@@ -30,7 +30,6 @@ class Command(BaseCommand):
                     group_type=type,
                 )
                 group.topics.add(tag)
-                print(group.name)
 
                 try:
                     user = User.objects.get(id=group.id)
