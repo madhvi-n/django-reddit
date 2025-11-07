@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from env_settings import configure_environment
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reddit_clone.settings')
-
+configure_environment()
 application = get_wsgi_application()

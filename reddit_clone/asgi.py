@@ -7,10 +7,9 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
-import os
 
 from django.core.asgi import get_asgi_application
+from env_settings import configure_environment
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reddit_clone.settings')
-
+configure_environment()
 application = get_asgi_application()

@@ -7,7 +7,7 @@ from reports.views import PostReportViewSet
 
 router = routers.SimpleRouter()
 router.register(r'posts', PostViewSet)
-router.register(r'post/self', PostSelfViewSet)
+router.register(r'post/self', PostSelfViewSet, basename='post-self')
 
 post_router = routers.NestedSimpleRouter(
     router, r'posts', lookup='post'

@@ -12,30 +12,22 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+from dotenv import load_dotenv
 
-def get_env_variable(var_name):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = 'Set the %s environment variable' % var_name
-        return None
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_variable('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = [
-    '*'
-]
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = False
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -54,11 +46,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'corsheaders',
-    'guardian',
     'ckeditor',
+    'guardian',
     'ckeditor_uploader',
     'django_filters',
     'drf_yasg',
@@ -85,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -114,12 +107,7 @@ WSGI_APPLICATION = 'reddit_clone.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -128,14 +116,14 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-HOME_EMAIL = 'admin@gmail.com'
-DEFAULT_FROM_GMAIL = 'admin@gmail.com'
+HOME_EMAIL = os.getenv('HOME_EMAIL', 'admin@example.com')
+DEFAULT_FROM_GMAIL = os.getenv('DEFAULT_FROM_GMAIL', 'admin@example.com')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'admin@gmail.com'
-EMAIL_HOST_PASSWORD = 'admin123'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
 
 LOGIN_REDIRECT_URL  = 'home'
 LOGOUT_REDIRECT_URL = 'home'
@@ -152,9 +140,8 @@ ACCOUNT_LOGIN_ATTEMPT_LIMIT = None
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/"
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
-ACCOUNT_EMAIL_VERIFICATION = "none" # mandatory
+ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -204,16 +191,11 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-CORS_REPLACE_HTTPS_REFERER = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_PREFLIGHT_MAX_AGE = 86400
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://localhost:4200",
-    "https://madhvi-n.github.io"
-]
+CORS_ALLOWED_ORIGINS = []
 
 
 ####################################
@@ -257,3 +239,5 @@ CKEDITOR_CONFIGS = {
 }
 
 ###################################
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
