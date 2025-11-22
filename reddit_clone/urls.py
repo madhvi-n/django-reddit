@@ -13,15 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include, re_path
-from django.views.generic import TemplateView
-from django.conf.urls.static import static
+
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,17 +35,17 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path("admin/", admin.site.urls),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
     # path('accounts/', include('allauth.urls')),
-    re_path(r'^dj-rest-auth/', include('dj_rest_auth.urls')),
-    re_path(r'^dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('', include('posts.urls')),
-    path('', include('tags.urls')),
-    path('', include('groups.urls')),
-    path('', include('profiles.urls')),
-    path('', include('reports.urls')),
-        path(
+    re_path(r"^dj-rest-auth/", include("dj_rest_auth.urls")),
+    re_path(r"^dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("", include("posts.urls")),
+    path("", include("tags.urls")),
+    path("", include("groups.urls")),
+    path("", include("profiles.urls")),
+    path("", include("reports.urls")),
+    path(
         "api/swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="swagger-docs",

@@ -1,6 +1,6 @@
-from django.urls import re_path, path, include
+from django.urls import include, path, re_path
 from reports.router import router
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path("api/v1/", include(router.urls)),
 ]

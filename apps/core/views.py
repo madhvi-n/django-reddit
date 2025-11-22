@@ -1,20 +1,22 @@
-from rest_framework import viewsets, mixins, status
+from rest_framework import mixins, status, viewsets
 from rest_framework.response import Response
 
 from .mixins import (
+    DestroyModelMixin,
+    MultiPermissionViewSetMixin,
+    MultiSerializerViewSetMixin,
+    PaginatedResponseMixin,
+)
+
+
+class BaseReadOnlyViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
     MultiSerializerViewSetMixin,
     MultiPermissionViewSetMixin,
     PaginatedResponseMixin,
-    DestroyModelMixin,
-)
-
-class BaseReadOnlyViewSet(
-        mixins.ListModelMixin,
-        mixins.RetrieveModelMixin,
-        MultiSerializerViewSetMixin,
-        MultiPermissionViewSetMixin,
-        PaginatedResponseMixin,
-        viewsets.GenericViewSet):
+    viewsets.GenericViewSet,
+):
 
     def get_serializer_context(self):
         context = super(BaseReadOnlyViewSet, self).get_serializer_context()
@@ -29,8 +31,9 @@ class BaseReadOnlyViewSet(
 
 
 class BaseViewSet(
-        mixins.CreateModelMixin,
-        mixins.UpdateModelMixin,
-        DestroyModelMixin,
-        BaseReadOnlyViewSet):
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    DestroyModelMixin,
+    BaseReadOnlyViewSet,
+):
     pass

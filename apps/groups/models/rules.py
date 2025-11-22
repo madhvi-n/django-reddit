@@ -1,6 +1,6 @@
-from django.db import models
 from core.models import TimeStampedModel
 from django.contrib.auth.models import User
+from django.db import models
 from groups.models import Group
 
 
@@ -10,17 +10,11 @@ class GroupRule(TimeStampedModel):
         COMMENTS = "COMMENTS"
         BOTH = "BOTH"
 
-    group = models.ForeignKey(
-        Group,
-        related_name="rules",
-        on_delete=models.CASCADE
-    )
+    group = models.ForeignKey(Group, related_name="rules", on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     rule_type = models.CharField(
-        choices=RuleType.choices,
-        max_length=10,
-        default=RuleType.BOTH
+        choices=RuleType.choices, max_length=10, default=RuleType.BOTH
     )
 
     class Meta:

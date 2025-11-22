@@ -1,13 +1,13 @@
-from rest_framework import viewsets, generics, status, filters
-from rest_framework.response import Response
+from core.views import BaseReadOnlyViewSet, BaseViewSet
+from django.contrib.auth.models import User
+from groups.filters import GroupMemberFilterSet
+from groups.models import GroupMember
+from groups.serializers import GroupMemberSerializer
+from rest_framework import filters, generics, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
-from core.views import BaseViewSet, BaseReadOnlyViewSet
-from groups.models import GroupMember
-from django.contrib.auth.models import User
-from groups.serializers import GroupMemberSerializer
-from groups.filters import GroupMemberFilterSet
+from rest_framework.response import Response
 
 
 class GroupMemberPagination(PageNumberPagination):
@@ -17,15 +17,17 @@ class GroupMemberPagination(PageNumberPagination):
 class GroupMemberViewSet(BaseReadOnlyViewSet):
     queryset = GroupMember.objects.all()
     serializer_class = GroupMemberSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [
+        IsAuthenticated,
+    ]
     pagination_class = GroupMemberPagination
     filterset_class = GroupMemberFilterSet
-    
+
     def get_queryset(self):
         queryset = self.queryset
         if self.kwargs != {}:
-            if 'group_pk' in self.kwargs:
-                queryset = queryset.filter(group__pk=self.kwargs['group_pk'])
+            if "group_pk" in self.kwargs:
+                queryset = queryset.filter(group__pk=self.kwargs["group_pk"])
         return queryset
 
     # def list(self, request, group_pk=None):
