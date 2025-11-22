@@ -17,4 +17,4 @@ class PostBookmark(AbstractBookmark):
         verbose_name_plural = "Post Bookmarks"
 
     def __str__(self):
-        return f"Bookmark: {self.blog.title} by {self.user.username}"
+        return f"Bookmark: {self.post.title} by {self.user.username}"

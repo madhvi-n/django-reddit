@@ -11,12 +11,15 @@ from posts.models import Post
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 
 class PostCommentPagination(PageNumberPagination):
     page_size = 24
+
+
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class PostCommentViewSet(BaseViewSet):
@@ -28,12 +31,20 @@ class PostCommentViewSet(BaseViewSet):
         "create": PostCommentCreateSerializer,
         "update": PostCommentCreateSerializer,
     }
+    permission_action_classes = {
+        "list": [AllowAny],
+        "create": [IsAuthenticated],
+        "update": [IsAuthenticated],
+        "destroy": [IsAuthenticated],
+        "upvote": [IsAuthenticated],
+        "downvote": [IsAuthenticated],
+        "remove_vote": [IsAuthenticated],
+    }
 
     def get_queryset(self):
-        queryset = self.queryset.filter(is_removed=True)
-        if self.kwargs != {}:
-            if "post_uuid" in self.kwargs:
-                return self.queryset.filter(post__uuid=self.kwargs["post_uuid"])
+        queryset = self.queryset
+        if "post_uuid" in self.kwargs:
+            queryset = self.queryset.filter(post__uuid=self.kwargs["post_uuid"])
         return queryset
 
     def list(self, request, post_uuid=None):
@@ -49,14 +60,14 @@ class PostCommentViewSet(BaseViewSet):
         return self.paginated_response(queryset)
 
     def create(self, request, post_uuid=None):
-        data = request.data
+        data = request.data.copy()
         mentioned_users = data.pop("mentioned_users", None)
 
         if not request.user.is_authenticated:
             return Response(
                 {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
             )
-        if data["user"] != request.user.pk:
+        if int(data["user"]) != request.user.pk:
             return Response(
                 {"error": "spoofing detected"}, status=status.HTTP_403_FORBIDDEN
             )
@@ -76,21 +87,21 @@ class PostCommentViewSet(BaseViewSet):
         if serializer.is_valid():
             comment = serializer.save()
             if mentioned_users is not None:
-                for user in mentioned_users:
-                    comment = add_mentioned_users(user, comment)
+                for user_id in mentioned_users:
+                    add_mentioned_users(user_id, comment)
             serializer = PostCommentSerializer(instance=comment)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, post_uuid=None, pk=None):
-        data = request.data
+        data = request.data.copy()
         comment = self.get_object()
 
         if not request.user.is_authenticated:
             return Response(
                 {"error": "The user is anonymous"}, status=status.HTTP_401_UNAUTHORIZED
             )
-        if data["user"] != request.user.pk:
+        if int(data["user"]) != request.user.pk:
             return Response(
                 {"error": "spoofing detected"}, status=status.HTTP_403_FORBIDDEN
             )

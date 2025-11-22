@@ -92,19 +92,19 @@ class UserFollowerViewSet(BaseViewSet):
     def get_queryset(self):
         queryset = self.queryset
         if self.kwargs != {}:
-            if "user_username" in self.kwargs:
+            if "user_pk" in self.kwargs:
                 return self.queryset.filter(
-                    followed_user__username=self.kwargs["user_username"]
+                    followed_user__pk=self.kwargs["user_pk"]
                 )
         return queryset
 
-    def list(self, request, user_username=None):
+    def list(self, request, user_pk=None):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    def retrieve(self, request, user_username=None, pk=None):
+    def retrieve(self, request, user_pk=None, pk=None):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    def create(self, request, user_username=None):
+    def create(self, request, user_pk=None):
         data = request.data
         if not request.user.is_authenticated:
             return Response(
@@ -114,9 +114,9 @@ class UserFollowerViewSet(BaseViewSet):
             return Response(
                 {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
             )
-        if user_username is not None:
+        if user_pk is not None:
             try:
-                data["followed_user"] = User.objects.get(username=user_username).pk
+                data["followed_user"] = User.objects.get(pk=user_pk).pk
             except User.DoesNotExist:
                 return Response(
                     {"error": "User profile does not exist"},
@@ -134,13 +134,13 @@ class UserFollowerViewSet(BaseViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, user_username=None, pk=None):
+    def update(self, request, user_pk=None, pk=None):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    def partial_update(self, request, user_username=None, pk=None):
+    def partial_update(self, request, user_pk=None, pk=None):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-    def destroy(self, request, user_username=None, pk=None):
+    def destroy(self, request, user_pk=None, pk=None):
         user_follower = self.get_object()
         if not request.user.is_authenticated:
             return Response(

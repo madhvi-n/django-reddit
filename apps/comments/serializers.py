@@ -43,12 +43,13 @@ class PostCommentSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created_at", "updated_at", "child_count")
 
     def get_child_count(self, obj):
+        if obj.pk is None:
+            return 0
         return PostComment.objects.filter(parent=obj).exclude(is_removed=True).count()
 
 
 class PostCommentCreateSerializer(serializers.ModelSerializer):
     comment = serializers.CharField(max_length=3000, min_length=4)
-    mentioned_users = UserSerializer(many=True, required=False)
     edited = serializers.ReadOnlyField(source="is_edited")
     child_count = serializers.SerializerMethodField()
 
@@ -58,14 +59,13 @@ class PostCommentCreateSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "comment",
-            "mentioned_users",
             "post",
             "parent",
             "is_nesting_permitted",
             "child_count",
             "edited",
         )
-        read_only_fields = ("mentioned_users", "child_count")
+        read_only_fields = ("child_count",)
         extra_kwargs = {"post": {"write_only": True}}
 
     def create(self, validated_data):
