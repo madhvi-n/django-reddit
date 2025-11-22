@@ -1,0 +1,24 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.heading-1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.heading-3 {
+  font-size: 1.2rem;
+}
